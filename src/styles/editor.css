@@ -1,0 +1,23 @@
+.editor-document {
+    @apply border-2 m-auto relative mt-6 p-2;
+}
+.editor-document:hover {
+    @apply border-black;
+}
+
+.editor-document::before  {
+    content: attr(data-document-tag);
+    font-size:.6rem;
+    @apply absolute top-0 right-0 -mt-6 p-1 bg-black text-white font-mono;
+}
+
+.editor-block {
+    @apply relative p-2 cursor-pointer;
+}
+
+
+.editor-block::before {
+    content: attr(data-block-tag);
+    font-size:.6rem;
+    @apply absolute top-0 right-0 -mt-6 p-1 bg-gray-600 text-white font-mono;
+}

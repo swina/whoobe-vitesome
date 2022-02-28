@@ -2,8 +2,13 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import '@purge-icons/generated';
 import { createI18n } from 'vue-i18n';
+import { createPinia } from 'pinia'
+//import store  from '/@/stores'
+
+
 
 import './styles/base.css';
+import './styles/custom.css';
 
 // Router
 import { Router } from '/@/router';
@@ -25,5 +30,8 @@ const app = createApp(App);
 app.use(i18n);
 
 app.use(Router);
+
+//app.use ( store )
+app.use(createPinia());
 
 app.mount('#app');

@@ -4,7 +4,15 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BlockContainer: typeof import('./components/editor/blocks/BlockContainer.vue')['default']
+    BlockElements: typeof import('./components/editor/blocks/BlockElements.vue')['default']
+    Container: typeof import('./components/editor/blocks/elements/container.vue')['default']
+    Dashboard: typeof import('./components/Dashboard.vue')['default']
+    Editor: typeof import('./components/editor/Editor.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    SidebarLeft: typeof import('./components/SidebarLeft.vue')['default']
+    SidebarRight: typeof import('./components/SidebarRight.vue')['default']
+    Toolbar: typeof import('./components/Toolbar.vue')['default']
   }
 }
 

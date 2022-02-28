@@ -1,16 +1,20 @@
 {
-  "name": "vitesome",
+  "name": "whoobe-vitesome",
   "version": "1.1.0",
   "description": "A simple opinionated Vue3 Starter Template with Vite.js",
   "scripts": {
-    "dev": "vite --open --host",
+    "dev": "vite --host 0.0.0.0",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
   "dependencies": {
+    "jsonpath": "^1.1.1",
+    "pinia": "^2.0.11",
+    "pnpm": "^6.32.1",
     "vue": "^3.2.31",
     "vue-i18n": "^9.2.0-beta.30",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@iconify/iconify": "^2.1.2",
