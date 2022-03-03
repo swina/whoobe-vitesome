@@ -399,11 +399,11 @@ export default class Element {
     Iconify(){
         this.label = 'Iconify'
         this.data = { icon:  'fa:home' }
-        this.tag = "iconify"
-        this.css.css = 'text-2xl'
+        this.tag = "icon"
+        this.css.css = 'iconify text-2xl'
         this.content = ''
         this.css.container = ''
-        this.element = 'IconifyIcon'
+        this.element = 'icon'
         return this
     }
 

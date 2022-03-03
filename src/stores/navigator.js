@@ -5,7 +5,8 @@ export const useNavigatorStore = defineStore('navigation', {
     state: () => ({ 
         sidebar: true,
         tabs:[],
-        tab: -1
+        tab: -1,
+        message: ''
     }),
     actions: {
         _sidebar(){
@@ -24,6 +25,9 @@ export const useNavigatorStore = defineStore('navigation', {
         _removeTab ( payload ){
             this.tabs.splice(payload,1)
             this.tab = this.tabs.length - 1
+        },
+        _message ( payload ){
+            this.message = payload
         }
     },
     getters: {

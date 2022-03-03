@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig , loadEnv } from 'vite';
 import { resolve } from 'pathe';
 import vue from '@vitejs/plugin-vue';
 import WindiCSS from 'vite-plugin-windicss';
@@ -7,6 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 import PurgeIcons from 'vite-plugin-purge-icons';
 import ViteFonts from 'vite-plugin-fonts';
 import svgLoader from 'vite-svg-loader';
+const fonts = ['Alfa+Slab+One','Asap+Condensed','Abel','Alice','Alegreya','Amethysta','Archivo+Black','Barlow','Barlow+Condensed','Bungee+Inline','Expletus+Sans','Lora','Montserrat','Nunito+Sans','Oi','Open+Sans','PT+Sans','Roboto','Roboto+Condensed','Quattrocento','Raleway','Ultra','Yatra+One']
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -30,7 +31,7 @@ export default defineConfig({
     // https://github.com/stafyniaksacha/vite-plugin-fonts#readme
     ViteFonts({
       google: {
-        families: ['Open Sans', 'Montserrat', 'Fira Sans'],
+        families: fonts
       },
     }),
 

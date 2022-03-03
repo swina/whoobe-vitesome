@@ -1,5 +1,17 @@
 // stores/editor.js
 import { defineStore } from 'pinia'
+import classes from '/@/composables/tw.classes'
+
+function createColors(){
+    let allColors = {}
+    classes.colors.forEach ( cl => {
+        allColors[cl] = [`bg-${cl}-50`]
+        for ( let n=1 ; n < 10 ; n++ ){
+            allColors[cl].push ( `bg-${cl}-${n*100}` )
+        }
+    }) 
+    return allColors
+}
 
 export const useEditorStore = defineStore('editor', {
     state: () => ({ 
@@ -7,21 +19,34 @@ export const useEditorStore = defineStore('editor', {
         current: null,
         document: null,
         page: null ,
+        tool: null,
+        helper: '',
+        fonts: 'Alfa+Slab+One|Asap+Condensed|Abel|Alice|Alegreya|Amethysta|Archivo+Black|Barlow|Barlow+Condensed|Bungee+Inline|Expletus+Sans|Lora|Montserrat|Nunito+Sans|Oi|Open+Sans|PT+Sans|Roboto|Roboto+Condensed|Quattrocento|Raleway|Ultra|Yatra+One',
+        colors: createColors(),
+        showColumns: true
     }),
     actions: {
         _elements ( payload ){
             this.elements = payload
         },
         _current( payload ){
-            console.log ( payload , this.current )
             this.current = payload
-            console.log ( payload , this.current )
         },
         _document ( payload ){
             this.document = payload
         },
         _page ( payload ){
             this.page = payload
+        },
+        _tool ( payload ){
+            this.tool = payload
+            this.helper = ''
+        },
+        _helper ( payload ){
+            this.helper = payload
+        },
+        toggleColumns (){
+            this.showColumns = !this.showColumns
         }
     },
     getters: {

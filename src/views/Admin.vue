@@ -19,12 +19,12 @@ export default defineComponent({
     const title = ref('Dashboard');
     const hk = hotKeys();
     const size = computed ( ()=> {
-        return navigation.sidebar ? 'w-4/5' : 'w-full'
+        return editor.tool ? 'w-4/5' : 'w-full'
     })
-
     onMounted(async () => {
       const elements = new Element().Groups()
       editor.elements = elements
+      navigation._message ( '' )
     })
     
     return { title , hk , editor , navigation , size  };
@@ -34,8 +34,10 @@ export default defineComponent({
 <template>
   <Dashboard :class="size"/>
   <SidebarLeft/>
-  <SidebarRight />
-  <Toolbar :class="size"/>
+  
+  <Toolbar class="w-full"/>
+  <Message/>
+  <div ref="setupColors" id="setupColors" class="h-10 absolute left-0 bottom-0 w-full"></div>
   <!-- <div class="bars bottomBar pl-10 text-xs" :class="size">
       {{ editor.currentBlock ? editor.currentBlock.id : ''}}
   </div>
@@ -44,3 +46,6 @@ export default defineComponent({
   </div> -->
 </template>
 
+<style>
+body { overflow:hidden; }
+</style>

@@ -1,16 +1,16 @@
 <template>
-    <div v-if="editor.document" class="editor-document z-1" data-document-tag="template">
-        <container :block="editor.document.json.blocks[0]" level="1" @selected="isContainer"/>
+    <div v-if="editor.document" class="editor-document z-1 relative" data-document-tag="template">
+        <container class="editor-block relative" :id="editor.document.json.blocks[0].id" :block="editor.document.json.blocks[0]" level="2" data-block-tag="template"/>
+        <!-- <BlockFloatingBar class="z-modal absolute top-0 left-0 document-floating w-auto" v-if="editor.current.id === editor.document.json.blocks[0].id" @click="blockAction"/> -->
     </div>
-   
 </template>
 
 <script lang="ts">
 
-import { defineComponent, ref, computed } from 'vue';
-//import { useStore } from 'vuex'
+import { defineComponent, computed } from 'vue';
 import { useEditorStore } from '/@/stores/editor';
 import { useNavigatorStore } from '/@/stores/navigator';
+import { selectBlock , blockPosition } from '/@/composables/useActions';
 
 import '/@/styles/editor.css'
 
@@ -19,20 +19,20 @@ export default defineComponent({
   setup() {
     const editor: any = useEditorStore();
     const navigation = useNavigatorStore();
-    const title = ref('Editor');
-    
-    console.log ( editor )
     const template: any = editor.document ? editor.document.json.blocks[0] : null
-    //const template = getEditor().document
-    const isContainer = ( block:any )=>{
-      console.log ( 'Selected container ' , block )
+    let position = computed(()=>{
+      return blockPosition()
+    })
+    const blockAction = ( action: string , event:any ) => {
+        console.log ( action , event )
     }
-    return { 
-        title , 
+  return { 
         editor , 
         navigation, 
         template ,
-        isContainer
+        selectBlock,
+        position,
+        blockAction
     };
   },
 });

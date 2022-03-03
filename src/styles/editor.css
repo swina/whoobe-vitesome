@@ -1,5 +1,15 @@
+.editor-dashboard {
+}
+.editor-toolbar {
+    @apply fixed top-0 right-0 w-10 h-screen max-h-screen flex flex-col justify-around items-center bg-gray-900 text-gray-400 z-10;
+}
+
+.editor-toolbar .iconify:hover {
+    @apply text-white cursor-pointer;
+}
+
 .editor-document {
-    @apply border-2 m-auto relative mt-6 p-2;
+    @apply shadow-lg m-auto relative mt-6 p-1;
 }
 .editor-document:hover {
     @apply border-black;
@@ -8,16 +18,45 @@
 .editor-document::before  {
     content: attr(data-document-tag);
     font-size:.6rem;
-    @apply absolute top-0 right-0 -mt-6 p-1 bg-black text-white font-mono;
+    @apply absolute top-0 left-0 -mt-6 p-1 bg-black text-white font-mono;
 }
 
 .editor-block {
-    @apply relative p-2 cursor-pointer;
+    @apply relative cursor-pointer;
 }
 
+.sidebarRight div textarea {
+    @apply font-mono bg-gray-800 outline-hidden text-sm text-gray-300 p-1 h-48;
+}
 
-.editor-block::before {
+.modal {
+    @apply fixed inset-0 w-screen h-screen bg-transparent items-center justify-center flex flex-col z-50;
+}
+
+.panelTitle {
+    @apply w-full p-2 bg-purple-700 text-white text-center;
+}
+
+.sidebarRight select {
+    @apply bg-gray-800 text-gray-500 p-1;
+}
+
+.editor-tool-select {
+    @apply bg-gray-800 text-gray-500 p-1;
+}
+
+button {
+    @apply border px-4 py-2 bg-gray-500;
+}
+
+*[data-block-tag]:hover::before {
     content: attr(data-block-tag);
     font-size:.6rem;
     @apply absolute top-0 right-0 -mt-6 p-1 bg-gray-600 text-white font-mono;
+}
+
+*[data-element-tag]:hover::after {
+    content: attr(data-element-tag);
+    font-size:.6rem;
+    @apply absolute top-0 right-0 w-10 mt-6 text-center p-1 bg-blue-400 text-white font-mono rounded;
 }
