@@ -1,40 +1,8 @@
-<p align='center'><img width="300px" style="display:block; margin:0 auto;" src="https://res.cloudinary.com/alvarosaburido/image/upload/v1621848301/projects/vitesome/logotype_zq9g5i.png" alt="Vitesome - Vue3 + Vite template starter">
-</p>
+# whoobe-vitesome
 
-<p align='center'>
-<sub>Logo created with <a href="https://windicss.org/">Windcss logo</a> + Icons made by <a href="https://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> & <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>  </sub>
-</p>
+A new version of whoobe-one-studio based on ViteJS and Vitesome
 
-# Vitesome 🌬 ⛵️
 
-> A simple opinionated Vue Starter Template with [Vite.js](https://vitejs.dev/)
-
-This template should help get you started developing with Vue and Typescript in Vite in a bliss.
-
-## Features
-
-- [Vite](https://github.com/vitejs/vite) ⚡️, [Vue](https://github.com/vuejs/vue),
-- 💨 [Windi CSS](https://github.com/windicss/windicss)
-- 📦 [Components auto importing](https://github.com/antfu/unplugin-vue-components)
-- [i18n](https://github.com/intlify/vue-i18n-next) out of the box 👩‍🎨
-- Easy to use svg icons based on [Iconify](https://iconify.design) 🔝
-- Routing with [Vue Router 4](https://github.com/vuejs/vue-router-next)
-- Deploy on Netlify
-
-<p align='center'><a href="https://vitesome.alvarosaburido.dev/"> Live Demo</a><p>
-
-## You can help me keep working on this project 💚
-
-- [Become a Sponsor on GitHub](https://github.com/sponsors/alvarosaburido)
-- [One-time donation via PayPal](https://paypal.me/alvarosaburido)
-
-<h4 align="center">Generous Unicorns 🦄</h4>
-
-<p align="center">
-  <a href="https://github.com/OmgImAlexis" target="_blank" rel="noopener noreferrer" ">
-    <img src="https://avatars.githubusercontent.com/u/6525926?v=4" height="72px"  style="border-radius: 100%; overflow: hidden; border: 4px solid #5EDCAE" alt="OmgImAlexis">
-  </a>
-</p>
 
 ## Pre-📦
 
@@ -63,17 +31,6 @@ This repo brings few things pre-packed, so you don't need to install them manual
 - [Windi CSS Intellisense](https://marketplace.visualstudio.com/items?itemName=voorjaar.windicss-intellisense) - IDE support for Windi CSS
 - [Iconify IntelliSense](https://marketplace.visualstudio.com/items?itemName=antfu.iconify) - Icon inline display and autocomplete
 
-## Check it out
-
-You can create a repo with this template [here](https://github.com/alvarosabu/vitesome/generate)
-
-Or if you prefer to do it manually with the cleaner git history
-
-```bash
-npx degit alvarosabu/vitesome my-vitesome-app
-cd my-vitesome-app
-pnpm i # If you don't have pnpm installed, run: npm install -g pnpm
-```
 ### Project setup
 
 ```
@@ -86,7 +43,7 @@ yarn
 yarn dev
 ```
 
-This will serve the app at [http://localhost:3260](http://localhost:3260)
+This will serve the app at [http://localhost:3000](http://localhost:3000)
 
 ### Build it
 
@@ -100,30 +57,29 @@ It correctly bundles Vue in production mode and optimizes the build for the best
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
-See the section about [deployment](#deployment) for more information.
+## DOCKER
 
-### Deployment
+You can also run in a docker without installing node or any other application (**requires docker**)
 
-Visit [Netlify](https://app.netlify.com/start) and select your repo, select OK along the way, and your App will be live in a minute.
+## Run development in a docker container
 
-## Recommended IDE Setup
+To run in a docker container simply run from the project folder console
+```
+docker-compose run --name myapp -p 3000:3000 -p 24678:24678 --rm app bash
+//then
+npm run dev
+```
+At the first run it will build the container and install all dependencies.
 
-[VSCode](https://code.visualstudio.com/) + [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur). Make sure to enable `vetur.experimental.templateInterpolationService` in settings!
+#### Add new packages 
+If you want to add any other package from the container console then
 
-### If Using `<script setup>`
+`npm i __package__`
 
-[`<script setup>`](https://github.com/vuejs/rfcs/pull/227) is a feature that is currently in RFC stage. To get proper IDE support for the syntax, use [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) instead of Vetur (and disable Vetur).
 
-## Type Support For `.vue` Imports in TS
+#### Access docker console from another terminal
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can use the following:
+`docker exec -it _container_name /bin/bash`
 
-### If Using Vetur
 
-1. Install and add `@vuedx/typescript-plugin-vue` to the [plugins section](https://www.typescriptlang.org/tsconfig#plugins) in `tsconfig.json`
-2. Delete `src/shims-vue.d.ts` as it is no longer needed to provide module info to Typescript
-3. Open `src/main.ts` in VSCode
-4. Open the VSCode command palette
-5. Search and run "Select TypeScript version" -> "Use workspace version"
 
-![repository-banner.png](https://res.cloudinary.com/alvarosaburido/image/upload/v1612193118/as-portfolio/Repo_Banner_kexozw.png)
