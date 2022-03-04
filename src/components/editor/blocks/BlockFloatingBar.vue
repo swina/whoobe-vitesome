@@ -1,8 +1,8 @@
 <template>
-    <div :class="editor.current.type === 'container' ? '-mt-10 w-1/3' : ''" class="flex flex-row border items-center px-2  justify-around h-10 bg-white shadow z-modal cursor-pointer">
-        <Chip class="mr-2" :text="editor.current.semantic||editor.current.element"/>
+    <div :class="editor.current.type === 'container' ? '-mt-10 w-1/3' : ''" class="flex border items-center px-2  justify-around h-10 bg-white shadow z-modal cursor-pointer w-auto py-1">
+        <div class="-mt-1"><Chip class="mr-2" :text="editor.current.semantic||editor.current.element"/></div>
         <template v-for="item in toolbar" :key="item.icon">
-            <span class="z-modal mt-2" :title="item.label" v-if="filter(item)" @click="$emit('action',item,$event)">
+            <span class="z-modal mt-1 bg-white" :title="item.label" v-if="filter(item)" @click="$emit('action',item,$event)">
                 <icon :icon="item.icon" class="iconify ml-1 text-2xl text-gray-700 hover:text-blue-700" />
             </span>
         </template>

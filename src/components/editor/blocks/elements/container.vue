@@ -1,5 +1,4 @@
 <template>
-<div class="p-2">
     <div 
         v-if="$attrs.block" 
         :ref="$attrs.block.id" 
@@ -17,15 +16,17 @@
                 class="relative"
                 :id="element.id"
                 :block="element"
-                :class="current(element,false)"
+                :class="current(element,false,true)"
                 :level="parseInt($attrs.level)+1"
-                @click="selectBlock(element,$event),currentId=element.id,getPos($event,element)"/>
+                @click="selectBlock(element,$event),currentId=element.id,floatingBar($event,false)"
+                @contextmenu.prevent="selectBlock(element,$event),floatingBar($event)"/>
             <Element
                 :id="element.id"
                 :block="element"
                 v-if="element.type !='container'"
                 :level="parseInt($attrs.level)+1"
-                @click="selectBlock(element,$event),currentId=element.id,getPos($event,element)"/>
+                @click="selectBlock(element,$event),currentId=element.id,floatingBar($event,false)"
+                @contextmenu.prevent="selectBlock(element,$event),floatingBar($event)"/>
             <!-- <component 
                 class="relative shadow"
                 :id="element.id"
@@ -42,17 +43,18 @@
             </component> -->
         </template>
     </div>
-    </div>
-    <BlockFloatingBar class="z-modal editor-floating" v-if="editor.current.id === currentId" :style="position?position:''" @action="floatingAction"/>
+    <div class="selector absolute inset-0 border-black z-modal"></div>
+    <!-- <BlockFloatingBar class="z-modal editor-floating" v-if="editor.current.id === currentId" :style="position?position:''" @action="floatingAction"/> -->
 </template>
 
 <script lang="ts">
-import { defineComponent, ref , onMounted , computed } from 'vue'
+import { defineComponent, ref , onMounted , computed , defineEmits } from 'vue'
 //import { useStore , mapActions } from 'vuex'
 import { useEditorStore } from '/@/stores/editor';
 import { useNavigatorStore } from '/@/stores/navigator';
 import '/@/styles/editor.css'
 import { dispatch , selectBlock , blockCoords , floatingCoords } from '/@/composables/useActions'
+import { openContextMenu , toggleContext } from '/@/composables/contextMenu';
 
 export default defineComponent({
     name: 'container',
@@ -61,8 +63,9 @@ export default defineComponent({
         //const store = useStore()
         const currentId = ref(null)
 
-        
-        const current = ( block: object , element: boolean ) => {
+        const emit = defineEmits ( ['click'] )
+
+        const current = ( block: object , element: boolean , flag: boolean = false ) => {
             if ( !editor.current ) return ''
             let level = 'z-' + (parseInt(context.attrs.level) + 1)
             if ( element ) {
@@ -74,22 +77,46 @@ export default defineComponent({
             } else {
                 css += ' border '
             }
+            if ( flag ){
+                css += ' hover:border-blue-500 '
+            }
+
+            const borders = {
+                container : ' hover:border-dashed border-transparent hover:border-blue-500 ',
+                element: ' hover:border-dashed border-transparent hover:border-green-500 '
+            } 
+            const bordersActive = {
+                container: ' border-blue-500 ',
+                element: ' border-green-500 '
+            }
+
             return editor.current && editor.current?.id && editor.current.id === block.id
-                ? css + 'border-red-600 ' + level 
-                : block.type != 'container' ? css + 'border-dashed ' : css + 'border-dashed ' + level
+                ? css + bordersActive[block.type] + level 
+                : css + borders[block.type] + level
+                // ? block.type === 'container' ? css + 'border-red-600 ' + level : css + 'border-green-600 ' + level 
+                // : block.type != 'container' ? css + 'border-dashed hover:border-green-600 ' + level : css + ' border-transparent ' + level
         }
 
         const currentTag = ( block: object ) => {
             if ( !editor.current ) return ''
             return editor.current && editor.current?.id && editor.current.id === block.id ?
-                    context.attrs.level === '2' ? block.semantic || 'template' : block.semantic || block.element : null 
+                    context.attrs.level === '2' ? block.semantic || 'template' : block.semantic || block.tag : null 
         }
         let floatPosition = ref('')
         let position = computed(()=>{
             return floatPosition.value
         })
 
+        const floatingBar = ( event: object , toggle: boolean = true ) => {
+            toggle ? 
+                openContextMenu ( event ) :
+                toggleContext( event ) 
+        }
+         
+
         const getPos = async ( event:object , element: object ) => {
+            return false
+
             event.stopPropagation()
             let offsetY = 0
             let offsetX = 0
@@ -111,7 +138,7 @@ export default defineComponent({
             editor._tool ( item.action )
         }
         
-        return { editor , currentTag , current , selectBlock , currentId  , getPos , position , floatingAction }
+        return { editor , currentTag , current , selectBlock , currentId  , getPos , position , floatingAction, floatingBar }
     },
    
 

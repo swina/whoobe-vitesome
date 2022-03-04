@@ -8,6 +8,7 @@ import { useNavigatorStore } from '/@/stores/navigator';
 import { hotKeys } from '/@/composables/hotKeys';
 import  Element from '/@/composables/useElementClass'
 
+import ctxMenu from '/@/composables/contextMenu'
 export default defineComponent({
   name: 'Admin',
   setup() {

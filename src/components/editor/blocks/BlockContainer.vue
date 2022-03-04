@@ -1,7 +1,7 @@
 <template>
-    <div v-if="editor.document" class="editor-document z-1 relative" data-document-tag="template">
-        <container class="editor-block relative" :id="editor.document.json.blocks[0].id" :block="editor.document.json.blocks[0]" level="2" data-block-tag="template"/>
-        <!-- <BlockFloatingBar class="z-modal absolute top-0 left-0 document-floating w-auto" v-if="editor.current.id === editor.document.json.blocks[0].id" @click="blockAction"/> -->
+    <div v-if="editor.document" class="z-1 relative min-h-screen border-black" data-document-tag="template">
+        <!-- <container class="editor-block relative" :id="editor.document.json.blocks[0].id" :block="editor.document.json.blocks[0]" level="2" data-block-tag="template"/> -->
+        <block :block="editor.document.json.blocks[0]" :level="2"/>
     </div>
 </template>
 

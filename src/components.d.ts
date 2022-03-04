@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Block: typeof import('./components/editor/blocks/elements/block.vue')['default']
     BlockColor: typeof import('./components/editor/tools/BlockColor.vue')['default']
     BlockContainer: typeof import('./components/editor/blocks/BlockContainer.vue')['default']
     BlockCss: typeof import('./components/editor/tools/BlockCss.vue')['default']

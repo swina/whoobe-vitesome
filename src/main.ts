@@ -6,7 +6,6 @@ import { createPinia } from 'pinia'
 //import store  from '/@/stores'
 
 
-
 import './styles/base.css';
 import './styles/custom.css';
 
