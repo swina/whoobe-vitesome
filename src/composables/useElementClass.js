@@ -403,7 +403,7 @@ export default class Element {
         this.css.css = 'iconify text-2xl'
         this.content = ''
         this.css.container = ''
-        this.element = 'icon'
+        this.element = 'i'
         return this
     }
 

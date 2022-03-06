@@ -4,23 +4,33 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+  
+  import { computed , ref } from 'vue'
+  import { useEditorStore } from '/@/stores/editor'
+  import { useNavigatorStore } from '/@/stores/navigator'
 
-import { defineComponent } from 'vue';
-//import { useStore } from 'vuex'
-import { useNavigatorStore } from '/@/stores/navigator';
-
-export default defineComponent({
-  name: 'Dashboard',
-  setup() {
-    const navigation: any = useNavigatorStore() //useStore().state.navigation;
-    const active = ( component: string)  => {
-        
-        return navigation.tabs.length ?
-            navigation.tabs[navigation.tab].component === component ? 
-                true : false : false
+  const editor = useEditorStore()
+  const navigation: any = useNavigatorStore() //useStore().state.navigation;
+  //const document = ref (null)
+  
+  const active = ( component: string)  => {
+    if ( navigation.tabs.length && navigation.tab > -1 ){
+      if ( navigation.tabs[navigation.tab].component === component ){
+        console.log ( 'TAB => ' , navigation.tab , navigation.tab.object?.id ? navigation.tab.object.id : 'no id')
+        let document = navigation.tabs[navigation.tab]?.object ? navigation.tabs[navigation.tab].object : null
+        editor._document ( document )
+        editor._current ( document )
+        return true
+      }
     }
-    return { navigation , active };
-  },
-});
+      // return navigation.tabs.length ?
+      //     navigation.tabs[navigation.tab].component === component ? 
+      //         true : false : false
+  }
+
+  
+
+
+
 </script>

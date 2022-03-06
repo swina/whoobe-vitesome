@@ -1,9 +1,9 @@
 <template>
-    <div v-if="editor.current" class="flex flex-col p-2">
+    <div v-if="editor.current && editor.current?.css" class="flex flex-col p-2">
         CSS
         <textarea v-model="editor.current.css.css"/>
         Container
-        <textarea v-model="editor.current.css.container"/>
+        <input v-model="editor.current.css.container"/>
         Style
         <textarea v-model="editor.current.style"/>
         Semantic

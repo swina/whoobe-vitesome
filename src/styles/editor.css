@@ -26,7 +26,18 @@
 }
 
 .sidebarRight div textarea {
-    @apply font-mono bg-gray-800 outline-hidden text-sm text-gray-300 p-1 h-48;
+    @apply font-mono bg-gray-800 outline-hidden border-0 text-sm text-gray-300 p-1 mb-2 h-48;
+}
+
+.sidebarRight div input , .bars input {
+    @apply font-mono bg-gray-800 outline-hidden text-sm text-gray-300 p-1 text-left;
+}
+
+.bars input   {
+    @apply text-xs p-1 border-none text-left;
+}
+.bottomBar {
+    @apply text-xs;
 }
 
 .modal {
@@ -49,7 +60,11 @@ button {
     @apply border px-4 py-2 bg-gray-500;
 }
 
-*[data-block-tag]:hover::before {
+button.square {
+    @apply border rounded w-6 h-6 border-gray-600  bg-gray-700 hover:bg-black hover:text-white justify-center flex items-center bg-transparent text-xs p-1;
+}
+
+/* *[data-block-tag]:hover::before {
     content: attr(data-block-tag);
     font-size:.6rem;
     @apply absolute top-0 right-0 -mt-6 p-1 bg-gray-600 text-white font-mono;
@@ -59,4 +74,4 @@ button {
     content: attr(data-element-tag);
     font-size:.6rem;
     @apply absolute top-0 right-0 w-10 mt-6 text-center p-1 bg-blue-400 text-white font-mono rounded;
-}
+} */

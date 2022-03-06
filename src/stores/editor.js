@@ -18,12 +18,13 @@ export const useEditorStore = defineStore('editor', {
         elements: null,
         current: null,
         document: null,
-        page: null ,
+        page: null,
+        undo: null,
         tool: null,
         helper: '',
         fonts: 'Alfa+Slab+One|Asap+Condensed|Abel|Alice|Alegreya|Amethysta|Archivo+Black|Barlow|Barlow+Condensed|Bungee+Inline|Expletus+Sans|Lora|Montserrat|Nunito+Sans|Oi|Open+Sans|PT+Sans|Roboto|Roboto+Condensed|Quattrocento|Raleway|Ultra|Yatra+One',
         colors: createColors(),
-        showColumns: true
+        showColumns: false
     }),
     actions: {
         _elements ( payload ){
@@ -37,6 +38,9 @@ export const useEditorStore = defineStore('editor', {
         },
         _page ( payload ){
             this.page = payload
+        },
+        _undo ( payload ){
+            this.undo = payload
         },
         _tool ( payload ){
             this.tool = payload

@@ -36,7 +36,7 @@ export default defineComponent({
                 const el = await new Element().createElement(name)
                 const current: any = editor.current    
                 current.blocks.push ( el )
-                editor.current = el 
+                //editor.current = el 
             } 
             if ( name === 'Grid' ){
                 editor._helper ( name )

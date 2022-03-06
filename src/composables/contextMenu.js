@@ -24,6 +24,7 @@ export function ctxMenu () {
 }
 
 export function openContextMenu ( e ){
+    console.log ( 'open context menu' )
     let ctxMenu = document.querySelector ( '#contextMenu' )
     ctxMenu.classList.remove ( 'hidden' )
     ctxMenu.style.left = `${e.pageX||e.clientX}px`

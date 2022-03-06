@@ -1,10 +1,11 @@
 <template>
-    <div :class="editor.current.type === 'container' ? '-mt-10 w-1/3' : ''" class="flex border items-center px-2  justify-around h-10 bg-white shadow z-modal cursor-pointer w-auto py-1">
+    <div :class="editor.current.type === 'container' ? '-mt-10 ' : ''" class="flex border items-center px-2  justify-around h-10 bg-white shadow z-modal cursor-pointer w-auto py-1">
         <div class="-mt-1"><Chip class="mr-2" :text="editor.current.semantic||editor.current.element"/></div>
         <template v-for="item in toolbar" :key="item.icon">
-            <span class="z-modal mt-1 bg-white" :title="item.label" v-if="filter(item)" @click="$emit('action',item,$event)">
-                <icon :icon="item.icon" class="iconify ml-1 text-2xl text-gray-700 hover:text-blue-700" />
-            </span>
+            <!-- <span class="z-modal mt-1 bg-white" :title="item.label" v-if="filter(item)" @click="$emit('action',item,$event)">
+                <icon :icon="item.icon" class="ml-1 text-2xl text-gray-700 hover:text-blue-700" />
+            </span> -->
+             <icon :icon="item.icon" class="ml-1 text-2xl text-gray-700 hover:text-blue-700"  :title="item.label" v-if="filter(item)" @click="$emit('action',item,$event)"/>
         </template>
     </div>
 </template>
@@ -17,22 +18,24 @@ export default defineComponent({
     setup() {
         const editor = useEditorStore()
         const toolbar = ref ( [
-            { icon: 'icomoon-free:move-up' , label: 'Move Up' , action: 'moveUp' },
-            { icon: 'la:elementor' , label: 'Add element' , action: 'elements' },
+            { icon: 'icomoon-free:move-up' , label: 'Move Up' , action: 'move' },
+            { icon: 'la:elementor' , label: 'Add element' , action: 'elements' , filter : [ 'grid' , 'flex' ] },
+            { icon: 'ic:baseline-edit' , label: 'Edit' , action: 'edit' , filter : ['element' , 'icon' , 'iconify'] },
+            { icon: 'ic:baseline-title' , label: 'Heading' , action: 'heading' , filter : ['h'] },
             { icon: 'fluent:text-direction-horizontal-right-24-regular' , label: 'Direction row' , action: 'flexRow' , filter: ['flex'] },
             { icon: 'fluent:text-direction-rotate-90-ltr-20-regular' , label: 'Direction row' , action: 'flexColumn' , filter: ['flex'] },
             { icon: 'clarity:form-line' , label: 'Form settings' , action: 'formSettings' , filter: ['form'] },
             { icon: 'carbon:text-font' , label: 'Font settings' , action: 'font' },
             { icon: 'fluent:text-color-24-regular' , label: 'Text Color' , action: 'text-color' , options: { context: 'textcolor' } },
             { icon: 'fluent:color-fill-24-regular' , label: 'Fill Color' , action: 'bg-color' , options: { context: 'bgcolor' } },
-            { icon: 'akar-icons:image' , label: 'Image' , action: 'BlockImageUrl' },
+            { icon: 'akar-icons:image' , label: 'Image' , action: 'image' },
             { icon: 'akar-icons:link-chain' , label: 'Link' , action: 'BlockLink' },
             { icon: 'ant-design:download-outlined' , label: 'Import block' , action: 'BlockImport' , filter: ['grid','flex'] },
             { icon: 'ant-design:upload-outlined' , label: 'Export block' , action: 'BlockExport' , filter: ['grid','flex'] }
         ])
         const filter = ( item: object ) => {
             if ( item?.filter ){
-                return item.filter.includes ( editor.current.tag ) ? true : false
+                return item.filter.includes ( editor.current.tag ) || item.filter.includes ( editor.current.element ) ? true : false
             }
             return true
         }

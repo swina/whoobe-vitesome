@@ -19,14 +19,14 @@
                 :class="current(element,false,true)"
                 :level="parseInt($attrs.level)+1"
                 @click="selectBlock(element,$event),currentId=element.id,floatingBar($event,false)"
-                @contextmenu.prevent="selectBlock(element,$event),floatingBar($event)"/>
+                @contextmenu.prevent="selectBlock(element,$event),floatingBar($event,true)"/>
             <Element
                 :id="element.id"
                 :block="element"
                 v-if="element.type !='container'"
                 :level="parseInt($attrs.level)+1"
                 @click="selectBlock(element,$event),currentId=element.id,floatingBar($event,false)"
-                @contextmenu.prevent="selectBlock(element,$event),floatingBar($event)"/>
+                @contextmenu.prevent="selectBlock(element,$event),floatingBar($event,true)"/>
             <!-- <component 
                 class="relative shadow"
                 :id="element.id"
@@ -43,7 +43,7 @@
             </component> -->
         </template>
     </div>
-    <div class="selector absolute inset-0 border-black z-modal"></div>
+    <!-- <div class="selector absolute inset-0 border-black z-modal"></div> -->
     <!-- <BlockFloatingBar class="z-modal editor-floating" v-if="editor.current.id === currentId" :style="position?position:''" @action="floatingAction"/> -->
 </template>
 

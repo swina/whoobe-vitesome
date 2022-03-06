@@ -12,7 +12,7 @@
 }
 
 .sidebarRight {
-    @apply top-0 right-0 max-h-screen h-screen w-1/5 flex flex-col z-10 mr-10;
+    @apply top-0 right-0 max-h-screen h-screen w-1/5 text-gray-600flex flex-col z-10 mr-10;
 }
 
 .toolbar {

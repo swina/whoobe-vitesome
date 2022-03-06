@@ -7,7 +7,7 @@
         :class="current(block,false)" 
         :data-block-tag="block.semantic || block.element + ' ' + level"
         :id="block.id"
-        :style="block.style"       
+        :style="blockStyle"       
     >
         <template v-for="element in block.blocks" :key="element.id">
             <block
@@ -19,11 +19,10 @@
                 :element="element"
                 v-if="element.type !='container'"
                 :level="parseInt(level)+1"
-                @click="selectBlock(element,$event)"
-                @contextmenu.prevent="selectBlock(element,$event)"/>
+                />
         </template>
+    <div class="absolute inset-0" v-if="block.type==='container'" :class="selector" @click="selectBlock(block,$event),contextMenu($event,false)" @contextmenu.prevent="selectBlock(block,$event),contextMenu($event,true)"></div>
     </div>
-    <div class="absolute inset-0 m-2" :class="selector" @click="selectBlock(block,$event),toggleContext" @contextmenu.prevent="selectBlock(block,$event),openContextMenu"></div>
 </template>
 
 <script setup lang="ts">
@@ -42,6 +41,10 @@ import { openContextMenu , toggleContext } from '/@/composables/contextMenu';
         level: Number
     })
 
+    const blockStyle = computed ( () => {
+        let stile = props.block.image.url ? `background-image:url(${props.block.image.url})` : ''
+        return props.block.style + ' ' + stile
+    })
     const current = ( block:object , flag: boolean = false ) => {
         return Object.values ( props.block.css ).join ( ' ' )
     }
@@ -51,5 +54,11 @@ import { openContextMenu , toggleContext } from '/@/composables/contextMenu';
             ' border border-red-500 ' + ' z-' + props.level :
             ' border hover:border-red-500 border-dashed '  + ' z-' + props.level
     })
+
+    const contextMenu = ( event: object , flag: boolean )=>{
+        flag ?
+            openContextMenu(event) :
+            toggleContext(event)
+    }
     
 </script>

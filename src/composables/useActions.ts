@@ -1,19 +1,76 @@
 import { useNavigatorStore  } from '/@/stores/navigator'
 import { useEditorStore } from '/@/stores/editor'
-import Block from '/@/composables/useBlock'
+import Block from '/@/composables/useBlockClass'
 import Element from '/@/composables/useElementClass'
-import sift from 'sift'
+import jp from 'jsonpath'
 
 const editor = useEditorStore();
 const navigation = useNavigatorStore();
+
+export const CLIPBOARD = 'whoobe-clipboard'
+export const UNDO = 'whoobe-undo'
 // by convention, composable function names start with "use"
-export function action( action: string , params: any) {
+
+// Create a randomi ID
+export function randomID(){
+    return 'whoobe-' + Math.random().toString(36).substr(2, 5)
+}
+
+
+export function isBlock( block:object ){
+    return block?.tag ? true : false
+}
+
+export function getLocalStorage ( storage: string , json: boolean = true){
+    return json ?
+            JSON.parse ( window.localStorage.getItem ( storage) ) :
+            window.localStorage.getItem ( storage)
+}
+
+export function setLocalStorage ( storage: string , source: any , json: boolean = true ){
+    return json ?
+            window.localStorage.setItem ( storage , JSON.stringify ( source ) ) :
+            window.localStorage.getItem ( storage , source )
+}
+
+//clone object and reassign any id to a new random id
+export function cloneBlock(o) {
+    if ( typeof o != 'object' || !isBlock(o) ) return 
+    for (var i in o) {
+      //fn.apply(this,[i,o[i]]);  
+      if (o[i] !== null && typeof(o[i])=="object") {
+        cloneBlock(o[i]);
+      } else {
+          if ( i === 'id' ){
+              o[i] = randomID()
+          }
+      }
+    }
+    return o
+}
+
+
+export async function action( action: string , params: any) {
     let navigation: any = useNavigatorStore();
-    console.log ( navigation )
+    let obj:any = null
+    if ( params.component === 'Editor' ){
+        let document: any = await new Block();
+        let block: any = await new Element().Flexbox({direction:'col'})
+        let element: any = await new Element().Paragraph()
+        block.semantic = 'main'
+        block.blocks.push ( element )
+        document.name = 'A new template'
+        document.json.blocks.push ( block )
+        obj = document
+        editor._document ( document )
+        editor._current ( block )
+        editor._tool ( 'snippets' )
+    }
     if ( action === 'addTab' ){
         navigation.tabs.push (  {
             label: params.label,
-            component: params.component
+            component: params.component,
+            object: obj
         })
         navigation.tab = navigation.tabs.length - 1
     }
@@ -34,6 +91,8 @@ export function dispatchEditorTool( data: any ){
 export function selectBlock ( block: object , event: object ){
     event.stopPropagation()
     console.log ( 'Selected Block => '  , block.tag , block.id )
+    block.type === 'container' ?
+        editor._tool ( 'elements' ) : editor._tool ( 'css' )
     editor._current ( block )
     return true
 }
@@ -57,6 +116,25 @@ export function removeBlock(id:string,currentNode){
         return node
 
     }
+}
+
+export function moveBlock (){
+    if ( !editor.current ) return
+    let component = editor.document
+    var parent = jp.parent ( component , '$..blocks[?(@.id=="' + editor.current.id + '")]' )
+    if ( parent.length === 1 ) return
+    let i
+    parent.forEach ( (p,index) => {
+        if ( p.id === editor.current.id ){
+            i = index
+        }
+    })
+    if ( i > 0 ){
+        let obj = Object.assign({},editor.current)
+        parent.splice(i,1)
+        parent.splice(i-1,0,obj)
+    }
+    editor._document ( component )
 }
 
 
@@ -141,12 +219,35 @@ export async function blockPosition(){
   
 }
 
+export function cleanCSS ( css:string ) {
+    return css.split(' ').filter ( cl => cl != '').join(' ')
+}
+
+export function arrayCSS ( css:string ){
+    return css.split(' ').filter ( cl => cl != '')
+}
+
+export async function setCSSValue ( css:string ){
+    console.log ( 'add class' , css )
+    if ( !editor.current ) return
+    if ( editor.current.css.css.includes ( css ) ){
+        let cl = editor.current.css.css
+        cl = cl.replace ( css , '' )
+        editor.current.css.css = cl
+        return
+    } else {
+        editor.current.css.css += ' ' + css
+        
+        return
+    }
+
+}
+
 export function updateCSS ( arr:object , classe:string , valore:string ){
     let css = classe.split(' ').filter ( cl => cl != '')
     arr.forEach ( a => {
         css = css.filter ( cl => { return cl != a && classe != ' ' } )
     })
-    console.log ( css )
     return css.join(' ') + ' ' + valore
 }
 
