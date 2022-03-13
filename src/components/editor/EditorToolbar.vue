@@ -12,22 +12,14 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent , ref } from 'vue'
-import { dispatchEditorTool } from '/@/composables/useActions'
-import { useNavigatorStore } from '/@/stores/navigator'
+import { useStore } from '/@/composables/useActions'
 import { useEditorStore } from '/@/stores/editor'
 
-const navigation = useNavigatorStore()
-const editor = useEditorStore()
+const editor = useEditorStore() //useStore()
 
 const sidebar = ( action: string ) => {
-    editor._tool ( action )
-    //dispatchEditorTool ( action )
+    editor._tool ( action , editor.current )
 }
 
-const toggleSidebar = ()=>{
-    console.log ( 'toggle' )
-    navigation._sidebar()
-}
 
 </script>

@@ -8,6 +8,7 @@
         <textarea v-model="editor.current.style"/>
         Semantic
         <select v-model="editor.current.semantic">
+            <option value=""></option>
             <option v-for="option in semantic" :value="option">{{ option }}</option>
         </select>
         

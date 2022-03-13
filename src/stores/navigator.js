@@ -6,7 +6,9 @@ export const useNavigatorStore = defineStore('navigation', {
         sidebar: true,
         tabs:[],
         tab: -1,
-        message: ''
+        currentTab: null,
+        message: '',
+        uikits: {}
     }),
     actions: {
         _sidebar(){
@@ -17,9 +19,11 @@ export const useNavigatorStore = defineStore('navigation', {
         },
         _addTab ( payload ){
             this.tabs.push ( payload )
+            this.currentTab = payload.component
             this.tab = this.tabs.length - 1
         },
         _selectTab ( payload ){
+            this.currentTab = this.tabs[payload].component
             this.tab = payload
         },
         _removeTab ( payload ){
@@ -28,6 +32,9 @@ export const useNavigatorStore = defineStore('navigation', {
         },
         _message ( payload ){
             this.message = payload
+        },
+        _uikits ( payload ){
+            this.uikits[payload.name] = payload.data
         }
     },
     getters: {

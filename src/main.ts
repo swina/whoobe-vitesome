@@ -30,7 +30,6 @@ app.use(i18n);
 
 app.use(Router);
 
-//app.use ( store )
 app.use(createPinia());
 
 app.mount('#app');

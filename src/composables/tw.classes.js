@@ -239,6 +239,56 @@ var classes = {
         'font-black'
     ],
     bgOpacity: setOpacity('bg-opacity'),
+    // bgPosition:{
+    //     size: '',
+    //     position: '',
+    //     repeat: '',
+    //     attachment: '',
+    //     clip: '',
+    //     origin
+    // },
+    //bgSettings : {
+        bgSize :  [
+        'bg-auto',
+        'bg-cover',
+        'bg-contain'
+        ],
+        bgPosition : [
+        'bg-center',
+        'bg-top',
+        'bg-bottom',
+        'bg-left',
+        'bg-left-top',
+        'bg-left-bottom',
+        'bg-right',
+        'bg-right-top',
+        'bg-right-bottom'
+        ],
+        bgRepeat : [
+        'bg-no-repeat',
+        'bg-repeat',
+        'bg-repeat-x',
+        'bg-repeat-y',
+        'bg-repeat-round',
+        'bg-repeat-space'
+        ],
+        bgAttachment: [
+        'bg-fixed',
+        'bg-local',
+        'bg-scroll'
+        ],
+        bgClip: [
+            'bg-clip-border',
+            'bg-clip-padding',
+            'bg-clip-content',
+            'bg-clip-text'
+        ],
+        bgOrigin: [
+            'bg-origin-border',
+            'bg-origin-padding',
+            'bg-origin-content'
+        ],
+    //},
     opacity: setOpacity('opacity'),
     colors: colors,
     bgcolor : setColors('bg'),
@@ -428,6 +478,8 @@ var classes = {
     paddingBottom: setClass('pb'),
     paddingLeft: setClass('pl'),
     paddingRight: setClass('pr'),
+    paddingHorizontal: setClass('px'),
+    paddingVertical: setClass('py'),
     spacing: setPercs('p'),
     spacingTop: setPercs('pt'),
     spacingBottom: setPercs('pb'),
@@ -438,7 +490,9 @@ var classes = {
     marginBottom: setClass('mb',true),
     marginLeft: setClass('ml',true),
     marginRight: setClass('mr',true),
-    mauto:['m-auto'],
+    marginHorizontal: setClass('mx',true),
+    marginVertical: setClass('my',true),
+    marginAuto:['m-auto'],
     borderType:[
         'border-solid',
         'border-dashed',

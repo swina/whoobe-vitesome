@@ -1,3 +1,4 @@
+import { reactive } from 'vue'
 import { useNavigatorStore  } from '/@/stores/navigator'
 import { useEditorStore } from '/@/stores/editor'
 import Block from '/@/composables/useBlockClass'
@@ -6,14 +7,30 @@ import jp from 'jsonpath'
 
 const editor = useEditorStore();
 const navigation = useNavigatorStore();
-
+export const PREVIEW = 'whoobe-preview'
 export const CLIPBOARD = 'whoobe-clipboard'
 export const UNDO = 'whoobe-undo'
 // by convention, composable function names start with "use"
 
+export const sliderIndex = reactive ({
+    index: 0
+})
+
+export const sliderTabs = reactive ({
+    tabs : []
+})
+
+export const sliderObject = reactive ( {
+    slider: null
+})
+
 // Create a randomi ID
 export function randomID(){
     return 'whoobe-' + Math.random().toString(36).substr(2, 5)
+}
+
+export function useStore ( name: String ){
+    return !name ? editor : navigation 
 }
 
 
@@ -52,19 +69,29 @@ export function cloneBlock(o) {
 
 export async function action( action: string , params: any) {
     let navigation: any = useNavigatorStore();
-    let obj:any = null
+    let obj:any = null , page:object , document:object , block:object , element:object
     if ( params.component === 'Editor' ){
-        let document: any = await new Block();
-        let block: any = await new Element().Flexbox({direction:'col'})
-        let element: any = await new Element().Paragraph()
-        block.semantic = 'main'
-        block.blocks.push ( element )
-        document.name = 'A new template'
-        document.json.blocks.push ( block )
-        obj = document
+        if ( !params.object ){
+            document = await new Block();
+            block = await new Element().Flexbox()
+            //element = await new Element().Paragraph()
+            block.semantic = 'main'
+            //block.blocks.push ( element )
+            document.name = 'A new template'
+            document.json.blocks =  block 
+            obj = document
+            editor._current ( block )
+            editor._tool ( 'elements' , block )
+        } else {
+            page = params.object
+            document = params.object
+            obj = document
+            !editor._current ? editor._current ( document ) : null   
+            editor._page ( page ) 
+        }
         editor._document ( document )
-        editor._current ( block )
-        editor._tool ( 'snippets' )
+        //editor._tool ( 'snippets' )
+        setLocalStorage ( PREVIEW , document )
     }
     if ( action === 'addTab' ){
         navigation.tabs.push (  {
@@ -91,22 +118,22 @@ export function dispatchEditorTool( data: any ){
 export function selectBlock ( block: object , event: object ){
     event.stopPropagation()
     console.log ( 'Selected Block => '  , block.tag , block.id )
-    block.type === 'container' ?
-        editor._tool ( 'elements' ) : editor._tool ( 'css' )
+    // block.type === 'container' ?
+    //     editor._tool ( 'elements' ) : editor._tool ( 'edit' )
     editor._current ( block )
     return true
 }
 
-export function removeBlock(id:string,currentNode){
-    if (id == currentNode.id) {
+export function removeBlock(id:string , currentNode:Object ){
+    console.log ( currentNode )
+    if (currentNode?.id && id == currentNode.id) {
         return currentNode;
     } else {
         var node = null
         for(var index in currentNode.blocks){
             
             node = currentNode.blocks[index];
-            
-            if(node.id === id){
+            if(node?.id === id){
                 currentNode.blocks.splice(index,1)
                 node.parent = currentNode
                 return node;
@@ -138,14 +165,19 @@ export function moveBlock (){
 }
 
 
-export function createElement ( name: string , options: object ){
-    let element = new Element().createElement ( name )
-    if ( editor.current?.blocks && editor.current.type === 'container' ){
-        editor.current.blocks.push ( element )
-        return true
-    }
-    return false
-}
+// export function createElement ( name: string , options: object ){
+//     let element = new Element().createElement ( name )
+//     if ( editor.current?.blocks && editor.current.type === 'container' ){
+//         editor.current.blocks.push ( element )
+//         return true
+//     }
+//     return false
+// }
+
+// export function newElement ( name: String ){
+//     if ( !name ) return null
+//     return new Element().createElement ( name )
+// }
 
 export function createGrid ( cols: number , layout:any ){
     if ( editor.current?.blocks && editor.current.type === 'container' ){
@@ -168,6 +200,7 @@ export function createGrid ( cols: number , layout:any ){
 
 export function blockCoords ( e ){
     //if ( e  ) e.stopPropagation()
+    if ( !editor.current ) return null
     let el: any = document.querySelector ( '#' + editor.current.id )
     let coords: object = el.getBoundingClientRect()
     if ( e ){
@@ -177,47 +210,7 @@ export function blockCoords ( e ){
     return coords
 }
 
-export function floatingCoords(){
-    try {
-        let el: any = document.querySelector ( '.editor-floating' )
-        let coords: object = el.getBoundingClientRect()
-        let main = document.querySelector ( '.editor-document' )
-        let limits: object = main.getBoundingClientRect()
-        el.classList.remove ( 'hidden' )
-        const position = {
-            top: parseInt(limits.top),
-            left: parseInt(limits.left),
-            right: parseInt(coords.right),
-            limit: parseInt(limits.right),
-            width: parseInt( coords.width )
-        }
-        console.log ( 'off screen' , limits.right , coords.right )
-        if ( (coords.left + coords.width ) > limits.right ){
-            position.left = parseInt(limits.right - coords.width)
-        }
-        return position
-    } catch ( err ) {
-        return null
-    }
-}
 
-export async function blockPosition(){
-        let offsetY = 0
-        let offsetX = 0
-        if ( editor.current.type != 'container' ){
-            offsetY = 40
-        }
-        let coords = await blockCoords(event)
-        let floating = await floatingCoords()
-
-        let left = coords.left
-        if ( ( left + floating.width ) > floating.limit ){
-            left = coords.right - floating.width
-        }
-
-        return `position:fixed;top:${coords.top - offsetY}px;left:${left}px;` 
-  
-}
 
 export function cleanCSS ( css:string ) {
     return css.split(' ').filter ( cl => cl != '').join(' ')
@@ -228,7 +221,6 @@ export function arrayCSS ( css:string ){
 }
 
 export async function setCSSValue ( css:string ){
-    console.log ( 'add class' , css )
     if ( !editor.current ) return
     if ( editor.current.css.css.includes ( css ) ){
         let cl = editor.current.css.css
@@ -237,16 +229,16 @@ export async function setCSSValue ( css:string ){
         return
     } else {
         editor.current.css.css += ' ' + css
-        
         return
     }
 
 }
 
-export function updateCSS ( arr:object , classe:string , valore:string ){
+export function updateCSS ( arr:Array , classe:string , valore:string ){
+    if ( !classe ) return valore
     let css = classe.split(' ').filter ( cl => cl != '')
     arr.forEach ( a => {
-        css = css.filter ( cl => { return cl != a && classe != ' ' } )
+            css = css.filter ( cl => { return cl != a && classe != ' ' } )
     })
     return css.join(' ') + ' ' + valore
 }
@@ -281,6 +273,9 @@ export function matchColorCSS ( arr:object , classe:string , prefix: string ){
     return css
 }
 
+export function blockCSS ( block: Object ){
+    return Object.values ( block.css ).join ( ' ' )
+}
 
 
 export function initColors(){

@@ -43,14 +43,6 @@
     @apply bg-gray-100 w-full border overflow-y-auto overflow-x-hidden h-screen;
 }
 
-.titleBar {
-    @apply bg-gray-700 p-2 text-base capitalize;
-}
-
-.titleBar:hover {
-    @apply bg-black;
-}
-
 /* TRANSITIONS */
 
 .fade-enter-active, .fade-leave-active {

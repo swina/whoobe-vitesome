@@ -9,7 +9,6 @@ import ViteFonts from 'vite-plugin-fonts';
 import svgLoader from 'vite-svg-loader';
 const fonts = ['Alfa+Slab+One','Asap+Condensed','Abel','Alice','Alegreya','Amethysta','Archivo+Black','Barlow','Barlow+Condensed','Bungee+Inline','Expletus+Sans','Lora','Montserrat','Nunito+Sans','Oi','Open+Sans','PT+Sans','Roboto','Roboto+Condensed','Quattrocento','Raleway','Ultra','Yatra+One']
 
-// https://vitejs.dev/config/
 export default defineConfig({
   server: {
     port: 3000,

@@ -5,18 +5,22 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "dev-server": "node ./server -- --host 0.0.0.0"
   },
   "dependencies": {
+    "@vue/server-renderer": "^3.2.31",
+    "compression": "^1.7.4",
+    "cross-env": "^7.0.3",
     "dragula": "^3.7.3",
+    "express": "^4.17.3",
     "jsonpath": "^1.1.1",
     "pinia": "^2.0.11",
     "pnpm": "^6.32.1",
     "sift": "^16.0.0",
     "vue": "^3.2.31",
     "vue-i18n": "^9.2.0-beta.30",
-    "vue-router": "^4.0.12",
-    "vuex": "^4.0.2"
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@iconify/iconify": "^2.1.2",
@@ -33,6 +37,7 @@
     "vite-plugin-fonts": "^0.2.2",
     "vite-plugin-purge-icons": "^0.7.0",
     "vite-plugin-windicss": "^1.7.1",
+    "vite-ssg": "^0.17.11",
     "vite-svg-loader": "^3.1.2",
     "vue-tsc": "^0.31.4",
     "windicss": "^3.4.3"

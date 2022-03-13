@@ -1,27 +1,12 @@
 <template>
-    <div class="flex flex-col p-2">
+    <div class="flex flex-col p-2 col-span-2">
         Font Family
-        <select v-model="selectedFont" @change="setFont">
+        <select v-model="selectedFont" @change="setFont" class="border-none text-xs">
             <option v-for="(font,index) in options" :value="font" :key="font"> {{ font }}</option>
         </select>
-        Size
-        <select v-model="selectedSize"  @change="setSize">
-            <option v-for="size in sizes" :value="size" :key="size"> {{ size.split('-')[1] }}</option>
-        </select>
-        Font Weight
-        <select v-model="selectedWeight"  @change="setWeight">
-            <option v-for="weight in weights" :value="weight" :key="weight"> {{ weight.split('-')[1] }}</option>
-        </select>
         <div class="flex flex-wrap justify-around py-2">
-            <button v-for="button in buttons" :key="button.css" class="square" :class="button.css" @click="setCSSValue(button.css,$event)" :title="button.label">{{ button.label }}</button>
-            <!-- <button class="square italic" title="italic">I</button>
-            <button class="square underline" title="underline">U</button>
-            <button class="square capitalize" title="capitalize">aa</button>
-            <button class="square uppercase" title="uppercase">aa</button>
-            <button class="square lowercase" title="lowercase">aa</button> -->
+            <button v-for="button in buttons" :key="button.css" class="square" :class="button.css" @click="setCSSValue(button.css,$event)" :title="button.css">{{ button.label }}</button>
         </div>
-        <!-- <button class="border-0 bg-transparent w-auto" @click="setCSSValue('font-bold',$event)"><icon icon="mdi:format-bold"/></button> -->
-        <!-- <icon icon="mdi:format-bold" @click="setCSSValue('font-bold')" class="border"/> -->
     </div>
 </template>
 

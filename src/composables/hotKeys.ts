@@ -1,7 +1,7 @@
 import { onMounted } from 'vue'
 import { useEditorStore } from '/@/stores/editor'
 import { useNavigatorStore } from '/@/stores/navigator'
-import { removeBlock, cloneBlock , getLocalStorage , setLocalStorage , CLIPBOARD , UNDO } from '/@/composables/useActions'
+import { removeBlock, cloneBlock , getLocalStorage , setLocalStorage , CLIPBOARD , UNDO , PREVIEW } from '/@/composables/useActions'
 
 const editor = useEditorStore()
 const navigation = useNavigatorStore()
@@ -9,7 +9,9 @@ const navigation = useNavigatorStore()
 
 // by convention, composable function names start with "use"
 export function hotKeys() {
-    onMounted(() => window.addEventListener("keydown", e => {
+    console.log ( 'mounting hotkeys' )
+    onMounted(()=>{ 
+        window.addEventListener("keydown", e => {
 
             //Editor HotKeys
             //
@@ -22,7 +24,7 @@ export function hotKeys() {
                 if ( editor.current && editor.document ){
                     setLocalStorage ( UNDO , editor.document.json )
                     //window.localStorage.setItem('whoobe-undo' , JSON.stringify(editor.document.json ))
-                    removeBlock ( editor.current.id , editor.document.json )
+                    removeBlock ( editor.current.id , editor.document.json.blocks )
                     navigation._message ( 'Block removed' )
                 }
             }
@@ -39,7 +41,13 @@ export function hotKeys() {
                 if ( editor.current )
                     setLocalStorage ( CLIPBOARD , editor.current )
             }
+            if ( e.altKey && e.code === 'KeyQ' ){
+                if ( editor.current )
+                    e.stopImmediatePropagation()
+                    setLocalStorage ( CLIPBOARD , editor.current )
+            }
             if ( e.altKey && e.code === 'KeyV' ){
+                e.stopImmediatePropagation()
                 let block = cloneBlock ( getLocalStorage ( CLIPBOARD ) )
                 if ( block ){
                     editor.current.blocks.push ( block )
@@ -55,13 +63,24 @@ export function hotKeys() {
                     editor._tool ( 'elements' )
                 }
             }
+            if ( e.altKey && e.code === 'KeyA' ){
+                if ( editor.preview ) {
+                    editor._preview()
+                    return
+                }
+                if ( editor.document ){
+                    setLocalStorage ( PREVIEW , editor.document )
+                    editor._preview ( )
+                }
+            }
             if ( e.altKey && e.code === 'Comma' ){
                 if ( editor.current ){
                     editor._tool ( 'css' )
                 }
             }
+           
+        }) 
         
-        
-    }))
+    })
 }
 

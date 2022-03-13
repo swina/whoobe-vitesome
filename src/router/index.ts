@@ -9,10 +9,14 @@ const routes = [
     path: '/admin',
     component: () => import('/@/views/Admin.vue'),
   },
+  // {
+  //   path: '/admin/preview',
+  //   component: () => import('/@/components/preview/Preview.vue'),
+  // }
 ];
 
 export const Router = createRouter({
   scrollBehavior: () => ({ left: 0, top: 0 }),
   history: createWebHistory(),
-  routes,
+  routes
 });

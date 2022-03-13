@@ -3,7 +3,7 @@
         v-if="$attrs.block" 
         :ref="$attrs.block.id" 
         :key="$attrs.block.id" 
-        class="editor-block border relative p-2" 
+        class="editor-block border relative " 
         :class="current($attrs.block,false)" 
         :data-block-tag="currentTag ( $attrs.block )"
         :id="$attrs.block.id"
@@ -53,7 +53,7 @@ import { defineComponent, ref , onMounted , computed , defineEmits } from 'vue'
 import { useEditorStore } from '/@/stores/editor';
 import { useNavigatorStore } from '/@/stores/navigator';
 import '/@/styles/editor.css'
-import { dispatch , selectBlock , blockCoords , floatingCoords } from '/@/composables/useActions'
+import { dispatch , selectBlock  } from '/@/composables/useActions'
 import { openContextMenu , toggleContext } from '/@/composables/contextMenu';
 
 export default defineComponent({
@@ -102,10 +102,10 @@ export default defineComponent({
             return editor.current && editor.current?.id && editor.current.id === block.id ?
                     context.attrs.level === '2' ? block.semantic || 'template' : block.semantic || block.tag : null 
         }
-        let floatPosition = ref('')
-        let position = computed(()=>{
-            return floatPosition.value
-        })
+        // let floatPosition = ref('')
+        // let position = computed(()=>{
+        //     return floatPosition.value
+        // })
 
         const floatingBar = ( event: object , toggle: boolean = true ) => {
             toggle ? 
@@ -114,31 +114,31 @@ export default defineComponent({
         }
          
 
-        const getPos = async ( event:object , element: object ) => {
-            return false
+        // const getPos = async ( event:object , element: object ) => {
+        //     return false
 
-            event.stopPropagation()
-            let offsetY = 0
-            let offsetX = 0
-            if ( editor.current.type != 'container' ){
-                offsetY = 40
-            }
-            let coords = await blockCoords(event)
-            let floating = await floatingCoords()
+        //     event.stopPropagation()
+        //     let offsetY = 0
+        //     let offsetX = 0
+        //     if ( editor.current.type != 'container' ){
+        //         offsetY = 40
+        //     }
+        //     let coords = await blockCoords(event)
+        //     let floating = await floatingCoords()
 
-            let left = coords.left
-            if ( ( left + floating.width ) > floating.limit ){
-                left = coords.right - floating.width
-            }
-            floatPosition.value = `position:fixed;top:${coords.top - offsetY}px;left:${left}px;` 
-        }
+        //     let left = coords.left
+        //     if ( ( left + floating.width ) > floating.limit ){
+        //         left = coords.right - floating.width
+        //     }
+        //     floatPosition.value = `position:fixed;top:${coords.top - offsetY}px;left:${left}px;` 
+        // }
         
         const floatingAction = ( item , event ) => {
             event.stopPropagation()
             editor._tool ( item.action )
         }
         
-        return { editor , currentTag , current , selectBlock , currentId  , getPos , position , floatingAction, floatingBar }
+        return { editor , currentTag , current , selectBlock , currentId  , floatingAction, floatingBar }
     },
    
 

@@ -1,14 +1,18 @@
 <template>
-    <div 
+    <component 
         v-if="block" 
+        :is="component"
         :ref="block.id" 
         :key="block.id" 
         class="editor-block relative p-2" 
         :class="current(block,false)" 
         :data-block-tag="block.semantic || block.element + ' ' + level"
         :id="block.id"
-        :style="blockStyle"       
-    >
+        :style="blockStyle">
+
+        <div v-if="!block.blocks.length && level < 3">
+            Start adding an element or a snippet !
+        </div>
         <template v-for="element in block.blocks" :key="element.id">
             <block
                 v-if="element.type === 'container'"
@@ -17,12 +21,18 @@
             <Element
                 :id="element.id"
                 :element="element"
-                v-if="element.type !='container'"
+                v-if="element.type !='container' && element.type != 'slider'"
                 :level="parseInt(level)+1"
                 />
+            <Slider 
+                v-if="element.type === 'slider'" 
+                :block="element" 
+                :id="element.id" 
+                :level="parseInt(level)+1"/>
         </template>
-    <div class="absolute inset-0" v-if="block.type==='container'" :class="selector" @click="selectBlock(block,$event),contextMenu($event,false)" @contextmenu.prevent="selectBlock(block,$event),contextMenu($event,true)"></div>
-    </div>
+        
+        <div class="absolute inset-0" v-if="block.type==='container'" :class="selector" @click="selectBlock(block,$event),contextMenu($event,false)" @contextmenu.prevent="selectBlock(block,$event),contextMenu($event,true)"></div>
+    </component>
 </template>
 
 <script setup lang="ts">
@@ -30,7 +40,7 @@ import { computed , ref } from 'vue'
 import { useEditorStore } from '/@/stores/editor';
 import { useNavigatorStore } from '/@/stores/navigator';
 import '/@/styles/editor.css'
-import { dispatch , selectBlock , blockCoords , floatingCoords } from '/@/composables/useActions'
+import { dispatch , selectBlock } from '/@/composables/useActions'
 import { openContextMenu , toggleContext } from '/@/composables/contextMenu';
 
     const editor = useEditorStore()
@@ -39,6 +49,10 @@ import { openContextMenu , toggleContext } from '/@/composables/contextMenu';
     const props = defineProps ({
         block: Object,
         level: Number
+    })
+
+    const component = computed( () => {
+        return props.block.semantic ? props.block.semantic : props.block.element
     })
 
     const blockStyle = computed ( () => {

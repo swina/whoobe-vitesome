@@ -20,11 +20,14 @@ export const useEditorStore = defineStore('editor', {
         document: null,
         page: null,
         undo: null,
+        wiTools: null,
         tool: null,
+        toolGroup: null,
         helper: '',
         fonts: 'Alfa+Slab+One|Asap+Condensed|Abel|Alice|Alegreya|Amethysta|Archivo+Black|Barlow|Barlow+Condensed|Bungee+Inline|Expletus+Sans|Lora|Montserrat|Nunito+Sans|Oi|Open+Sans|PT+Sans|Roboto|Roboto+Condensed|Quattrocento|Raleway|Ultra|Yatra+One',
         colors: createColors(),
-        showColumns: false
+        showColumns: false,
+        preview: false
     }),
     actions: {
         _elements ( payload ){
@@ -42,8 +45,16 @@ export const useEditorStore = defineStore('editor', {
         _undo ( payload ){
             this.undo = payload
         },
-        _tool ( payload ){
+        _wiTools ( payload ){
+            this.wiTools = payload
+        },
+        _tool ( payload , current ){
             this.tool = payload
+            this.current = current
+            this.helper = ''
+        },
+        _toolGroup ( payload ){
+            this.toolGroup = payload
             this.helper = ''
         },
         _helper ( payload ){
@@ -51,6 +62,9 @@ export const useEditorStore = defineStore('editor', {
         },
         toggleColumns (){
             this.showColumns = !this.showColumns
+        },
+        _preview (){
+            this.preview = !this.preview
         }
     },
     getters: {

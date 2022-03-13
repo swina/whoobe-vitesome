@@ -345,12 +345,40 @@ export default class Template {
         let grid = new Element().Grid().Cols(2).setCss('w-full p-2 md:p-20')
         let flexLeft = new Element().Flexbox({direction:'col'}).setCss('h-1/2 p-4 items-start justify-center')
         let flexRight = new Element().Flexbox({direction:'col'}).setCss('h-1/2 bg-contain bg-no-repeat bg-center')
-        let title = new Element().Heading(1).setContent('I am a Hero').setCss('font-bold')
+        let title = new Element().Heading(1).setContent('Slide 1').setCss('font-bold')
         let description = new Element().Paragraph().setCss('text-lg my-2')
         let cta = new Element().Button().setContent('Click Me').setCss('px-4 py-2 rounded bg-blue-400 text-white hover:bg-blue-700 my-4')
         flexRight.image.url = 'https://res.cloudinary.com/moodgiver/image/upload/v1617306150/Web_design_SVG_tsvcpl.svg'
         flexLeft.blocks = [ title, description , cta]
         grid.blocks = [ flexLeft , flexRight ]
+        slider.blocks.push ( grid )
+        grid = new Element().Grid().Cols(2).setCss('w-full p-2 md:p-20')
+        flexRight = new Element().Flexbox({direction:'col'}).setCss('h-1/2 p-4 items-start justify-center')
+        flexLeft = new Element().Flexbox({direction:'col'}).setCss('h-1/2 bg-contain bg-no-repeat bg-center')
+        title = new Element().Heading(1).setContent('Slide 2').setCss('font-bold')
+        description = new Element().Paragraph().setCss('text-lg my-2')
+        cta = new Element().Button().setContent('Click Me').setCss('px-4 py-2 rounded bg-blue-400 text-white hover:bg-blue-700 my-4')
+        flexLeft.image.url = 'https://res.cloudinary.com/moodgiver/image/upload/v1617306150/Web_design_SVG_tsvcpl.svg'
+        flexRight.blocks = [ title, description , cta]
+        grid.blocks = [ flexLeft , flexRight ]
+        slider.data["mode"] = 'slider'
+        slider.data["slides"] = [
+            { name: 'slide 1' },
+            { name: 'slide 2' }
+        ]
+        slider.data["css"] = {
+            default: 'border-b-4 border-transparent',
+            hover: 'hover:border-gray-300',
+            active: 'border-b-4 border-black'   
+        }
+        slider.data["settings"] = {
+            autoplay: 0,
+            navigation: {
+                enabled: true,
+                icons: [ 'mdi:chevron-left' , 'mdi:chevron-right'],
+                position: 'side'
+            }
+        }
         slider.blocks.push ( grid )
         this.blocks.push ( slider )
         return this
