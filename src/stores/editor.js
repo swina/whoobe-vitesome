@@ -6,8 +6,10 @@ function createColors(){
     let allColors = {}
     classes.colors.forEach ( cl => {
         allColors[cl] = [`bg-${cl}-50`]
+        allColors[cl].push ( `hover:bg-${cl}-50` )
         for ( let n=1 ; n < 10 ; n++ ){
             allColors[cl].push ( `bg-${cl}-${n*100}` )
+            allColors[cl].push ( `hover:bg-${cl}-${n*100}`)
         }
     }) 
     return allColors
@@ -21,7 +23,7 @@ export const useEditorStore = defineStore('editor', {
         page: null,
         undo: null,
         wiTools: null,
-        tool: null,
+        tool: 'css',
         toolGroup: null,
         helper: '',
         fonts: 'Alfa+Slab+One|Asap+Condensed|Abel|Alice|Alegreya|Amethysta|Archivo+Black|Barlow|Barlow+Condensed|Bungee+Inline|Expletus+Sans|Lora|Montserrat|Nunito+Sans|Oi|Open+Sans|PT+Sans|Roboto|Roboto+Condensed|Quattrocento|Raleway|Ultra|Yatra+One',
@@ -74,7 +76,7 @@ export const useEditorStore = defineStore('editor', {
         currentDocument ( state ){
             return state.document
         },
-        currentBlock(state) {
+        currentBlock (state) {
             return state.current
         },
     },

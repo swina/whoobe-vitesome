@@ -21,7 +21,7 @@
             <Element
                 :id="element.id"
                 :element="element"
-                v-if="element.type !='container' && element.type != 'slider'"
+                v-if="element.type !='container' && element.type != 'slider' && element.tag != 'icon' && element.tag != 'iconify'"
                 :level="parseInt(level)+1"
                 />
             <Slider 
@@ -29,6 +29,11 @@
                 :block="element" 
                 :id="element.id" 
                 :level="parseInt(level)+1"/>
+            <Iconify
+                v-if="element.tag === 'icon' || element.tag === 'iconify'"
+                :element="element"
+                :id="element.id"
+                :level="parseInt(level)+1"></Iconify>
         </template>
         
         <div class="absolute inset-0" v-if="block.type==='container'" :class="selector" @click="selectBlock(block,$event),contextMenu($event,false)" @contextmenu.prevent="selectBlock(block,$event),contextMenu($event,true)"></div>
@@ -56,8 +61,12 @@ import { openContextMenu , toggleContext } from '/@/composables/contextMenu';
     })
 
     const blockStyle = computed ( () => {
-        let stile = props.block.image.url ? `background-image:url(${props.block.image.url})` : ''
-        return props.block.style + ' ' + stile
+        let stile = ''
+        if ( props.block.font ){
+            stile += 'font-family:"' + props.block.font + '";'
+        }
+        stile += props.block.image.url ? `background-image:url(${props.block.image.url})` : ''
+        return props.block.style + ';' + stile
     })
     const current = ( block:object , flag: boolean = false ) => {
         return Object.values ( props.block.css ).join ( ' ' )

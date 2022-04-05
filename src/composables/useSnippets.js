@@ -367,17 +367,23 @@ export default class Template {
             { name: 'slide 2' }
         ]
         slider.data["css"] = {
+            container: 'flex flex-row',
             default: 'border-b-4 border-transparent',
             hover: 'hover:border-gray-300',
-            active: 'border-b-4 border-black'   
+            active: 'border-b-4 border-black'  
         }
         slider.data["settings"] = {
             autoplay: 0,
             navigation: {
                 enabled: true,
-                icons: [ 'mdi:chevron-left' , 'mdi:chevron-right'],
+                icons: {
+                    prev : 'bi:arrow-left-circle',
+                    next : 'bi:arrow-right-circle',
+                    css: 'text-5xl text-gray-300'
+                },
                 position: 'side'
-            }
+            },
+            animation: 'slide-left'
         }
         slider.blocks.push ( grid )
         this.blocks.push ( slider )

@@ -8,7 +8,8 @@
         :is="semantic">
         <template v-for="element in block.blocks" :key="element.id">
             <BlockPreview :block="element" v-if="element.type === 'container'"/>
-            <ElementPreview :element="element" v-if="element.type != 'container'"/>
+            <ElementPreview :element="element" v-if="element.type != 'container' && element.tag != 'icon' && element.tag != 'iconify'"/>
+            <IconPreview :element="element" v-if="element.tag === 'icon' || element.tag === 'iconify'"/>
             <SliderPreview :block="element" v-if="element.type === 'slider'"/>
         </template>
     </component>
@@ -25,7 +26,7 @@ const props = defineProps (
 const stile = computed ( () => {
     let st = props.block.style
     if ( props.block.image?.url ){
-        st += `background-image:url(${props.block.image.url})`
+        st += `;background-image:url(${props.block.image.url})`
     }
     return st
 })

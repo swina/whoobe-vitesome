@@ -1,40 +1,55 @@
 <template>
-    <div  :class="blockCSS(block)">
-        <ul class="flex flex-row w-full">
+    <component :is="component" :id="block.id" :class="blockCSS(block)" class="relative">
+        <div class="flex flex-row w-full" v-if="block.data.mode==='tabs'">
             <template v-for="(tab,n) in block.blocks.length" :key="tab">
-                <li @click="index=n" class="cursor-pointer"  :class="tabCSS(n)" :data-active="n===index?true:false">
+                <div @click="index=n" class="carousel_tab cursor-pointer"  :class="tabCSS(n)" :data-active="n===index?true:false" :data-tab="n" :data-css-active="block.data.css.active" :data-css="block.data.css.default + ' ' + block.data.css.hover">
                     <span v-if="block.data.mode==='tabs'">{{ block.data.slides[n].name }}</span>
-                </li>
+                </div>
             </template>
-        </ul>
-        <template v-for="(element,i) in block.blocks">
+        </div>
+        <div v-for="(element,i) in block.blocks" class="slide-content" :class="classe(i)">
             <BlockPreview
-                v-if="element.type === 'container' && index===i"
+                v-if="element.type === 'container'"
                 :block="element"
-                class="fade-in-slide"/>
+                :class="block.data.settings.animation"/>
             <ElementPreview
                 :id="element.id"
                 :element="element"
-                v-if="element.type !='container' && element.type != 'slider' && index===i"
-                class="fade-in-slide"
-                />
-        </template>
-    </div>
+                v-if="element.type !='container' && element.type != 'slider'"
+                :class="block.data.settings.animation"/>
+        </div>
+
+        <div :data-slider="block.id" class="carousel_prev absolute left-0 top-0 bottom-0 flex flex-col justify-center z-modal cursor-pointer" 
+            v-if="block.data.mode === 'slider'">
+            <span @click="prev"><icon :icon="sliderNav('prev').icon" :class="sliderNav('prev').css"/></span>
+        </div>
+        <div :data-slider="block.id" class="carousel_next absolute right-0 top-0 bottom-0 flex flex-col justify-center z-modal cursor-pointer" 
+            v-if="block.data.mode === 'slider'">
+            <span @click="next"><icon :icon="sliderNav('next').icon" :class="sliderNav('next').css"/></span>
+        </div>
+    </component>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref  } from 'vue'
 import { useStore , blockCSS } from '/@/composables/useActions'
 
 const editor = useStore()
 
-const index = ref ( 0 )
+let index = ref ( 0 )
 
 const props = defineProps ({
     block: Object
 })
 
+const component = ref ( 'carousel' )
+
 const slider = props.block
+
+const classe = (i) => {
+    let css = ''
+    return i === index.value ? css : css += ' hidden'
+}
 
 const tabCSS = (n) => {
     return n != index.value ? 
@@ -42,14 +57,44 @@ const tabCSS = (n) => {
         props.block.data.css.active 
 }
 
+const sliderNav = (direction:String) => {
+    return { 
+        icon: props.block.data.settings.navigation.icons[direction] , 
+        css: props.block.data.settings.navigation.icons.css 
+    }
+}
+
+const prev = () => {
+    index.value > 0 ? index.value-- : null
+}
+
+const next = () => {
+    console.log ( index , index.value < props.block.blocks.length ? 'next' : 'end' )
+    index.value < (props.block.blocks.length-1) ? index.value++ : null
+}
+
+
 </script>
 
 <style>
 .fade-in-slide {
   animation: fadeIn 1.5s;
 }
+.slide-left {
+    animation: slideLeft 1s;
+}
 @keyframes fadeIn {
   0% {opacity:0;}
   100% {opacity:1;}
+}
+@keyframes slideLeft {
+  0% {
+      opacity:0;
+      transform: translateX(100%);
+  }
+  100% {
+      opacity:1;
+      transform: translateX(0%);
+  }
 }
 </style>

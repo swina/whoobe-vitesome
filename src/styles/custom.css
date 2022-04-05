@@ -1,46 +1,5 @@
-.dashboard {
-   @apply fixed inset-0 max-w-screen max-h-screen w-screen h-screen bg-gray-800 text-gray-300 py-10;
-}
-
-
-.bars {
-    @apply fixed bg-gray-900 text-gray-300;
-}
-
-.sidebarLeft {
-    @apply top-0 left-0 max-h-screen h-screen w-10 flex flex-col justify-around items-center z-10;
-}
-
-.sidebarRight {
-    @apply top-0 right-0 max-h-screen h-screen w-1/5 text-gray-600flex flex-col z-10 mr-10;
-}
-
-.toolbar {
-    @apply top-0 left-0 flex max-w-screen pl-10 h-10 z-2 items-center;
-}
-
-.tab {
-    @apply bg-gray-600 text-xs h-10 px-2 flex items-center cursor-pointer;
-}
-
-.tab:hover {
-    @apply bg-black;
-}
-
-.bottomBar {
-    @apply bottom-0 left-0 w-screen h-10 z-2 flex flex-row items-center;
-}
-
-.bars .iconify{ 
-    @apply cursor-pointer text-gray-400;
-}
-
-.bars .iconify:hover { 
-    @apply text-white;
-}
-
-.editor {
-    @apply bg-gray-100 w-full border overflow-y-auto overflow-x-hidden h-screen;
+.grayscale {
+   filter: grayscale(1);
 }
 
 /* TRANSITIONS */
@@ -69,3 +28,4 @@
     transform: translate(100%, 0);
     margin-right: 0;
 }
+

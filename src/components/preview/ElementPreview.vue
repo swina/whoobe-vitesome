@@ -13,8 +13,9 @@
         :placeholder="element.placeholder" 
         :data-id="element.id"
         :data-icon="element.tag==='iconify' || element.tag === 'icon'?element.data.icon:null"
-        >
+        :data-click="element.events.click">
     </component>
+
 </template>
 
 <script setup lang="ts">

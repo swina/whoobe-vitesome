@@ -1,7 +1,63 @@
-.editor-dashboard {
-}
+input[type='text'], input[type='email'], input[type='url'], input[type='password'], input[type='number'], input[type='date'], input[type='datetime-local'], input[type='month'], input[type='search'], input[type='tel'], input[type='time'], input[type='week'], input[multiple]  {
+    border:0;
+    border-bottom:1px solid #eee;
+    @apply border-bluegray-300 border-b p-1 text-xs;
+  }
+  
+  select {
+    @apply border-bluegray-300 rounded p-1;
+  }
+  
+  textarea {
+    @apply border-bluegray-300 p-1 text-xs;
+  }
+.dashboard {
+    @apply fixed inset-0 max-w-screen max-h-screen w-screen h-screen bg-bluegray-800 text-gray-300 py-10;
+ }
+ 
+ 
+ .bars {
+     @apply fixed bg-bluegray-900 text-gray-300;
+ }
+ 
+ .sidebarLeft {
+     @apply top-0 left-0 max-h-screen h-screen w-10 flex flex-col justify-around items-center z-10;
+ }
+ 
+ .sidebarRight {
+     @apply top-0 right-0 max-h-screen h-screen w-1/5 text-bluegray-400 flex flex-col z-10 mr-10;
+ }
+ 
+ .toolbar {
+     @apply top-0 left-0 flex max-w-screen pl-10 h-8 z-2 items-center;
+ }
+ 
+ .tab {
+     @apply text-xs h-8 px-2 flex items-center cursor-pointer;
+ }
+ 
+ .tab:hover {
+     @apply bg-black;
+ }
+ 
+ .bottomBar {
+     @apply bottom-0 left-0 w-screen h-10 z-2 flex flex-row items-center;
+ }
+ 
+ .bars .iconify{ 
+     @apply cursor-pointer text-gray-400;
+ }
+ 
+ .bars .iconify:hover { 
+     @apply text-white;
+ }
+ 
+ .editor {
+     @apply bg-gray-100 w-full border overflow-y-auto overflow-x-hidden h-screen;
+ }
+
 .editor-toolbar {
-    @apply fixed top-0 right-0 w-10 h-screen max-h-screen flex flex-col justify-around items-center bg-gray-900 text-gray-400 z-10;
+    @apply fixed top-0 right-0 w-10 h-screen max-h-screen flex flex-col justify-around items-center bg-bluegray-900 text-gray-400 z-10;
 }
 
 .editor-toolbar .iconify:hover {
@@ -26,29 +82,30 @@
 }
 
 .panelTitle {
-    @apply bg-purple-700 px-2 py-1 text-base text-gray-400 border-b border-gray-100 capitalize;
+    @apply bg-purple-700 px-2 h-8 text-base text-gray-400 border-b border-gray-100 capitalize;
 }
 
 .titleBar {
-    @apply bg-gray-700 p-2 text-xs text-gray-400 border-b border-gray-800 capitalize;
+    @apply p-2 text-xs text-gray-400 border-b border-bluegray-700 capitalize;
 }
 
 .titleBar:hover {
-    @apply bg-black;
+    @apply bg-bluegray-900;
 }
 
+textarea:focus , input:focus , select:focus { @apply outline-none; }
 
 
 .sidebarRight div textarea {
-    @apply font-mono bg-gray-800 outline-hidden border-0 text-sm text-gray-300 p-1 mb-2 h-48;
+    @apply font-mono bg-bluegray-800 outline-hidden border-0 text-sm text-bluegray-400 p-1 mb-2 h-48;
 }
 
 .sidebarRight div textarea.small {
-    @apply font-mono bg-gray-800 outline-hidden border-0 text-sm text-gray-300 p-1 mb-2 h-20;
+    @apply font-mono bg-bluegray-800 outline-hidden border-0 text-sm text-bluegray-400 p-1 mb-2 h-20;
 }
 
 .sidebarRight div input , .bars input {
-    @apply font-mono bg-gray-800 outline-hidden text-sm text-gray-300 p-1 text-left;
+    @apply font-mono bg-bluegray-800 outline-hidden text-sm text-bluegray-400 p-1 text-left;
 }
 
 .bars input   {
@@ -67,15 +124,15 @@
 }
 
 .sidebarRight select {
-    @apply bg-gray-800 text-gray-500 p-1;
+    @apply bg-bluegray-800 text-gray-500 p-1 border-0;
 }
 
 .editor-tool-select {
-    @apply bg-gray-800 text-gray-500 p-1;
+    @apply bg-bluegray-800 text-gray-500 p-1 border-0;
 }
 
 button {
-    @apply border px-4 py-2 bg-gray-500;
+    @apply border px-4 py-2 bg-blue-500 text-white text-sm rounded-lg;
 }
 
 button.square {
@@ -94,3 +151,46 @@ button.square {
     font-size:.6rem;
     @apply absolute top-0 right-0 w-10 mt-6 text-center p-1 bg-blue-400 text-white font-mono rounded;
 } */
+ul.tree {
+    list-style:none;
+    padding-left:.5rem;
+    font-size:.7rem;
+  }
+  
+ul.tree li.item {
+    border-bottom-left-radius:.75em;
+    border-top-left-radius:.75em;
+    margin:2px 0;
+    position:relative;
+}
+
+ul.tree li.item a {
+    border-radius:50%;
+    color:#cecece;
+    display:inline-block;
+    height:1.5em;
+    left:-1.5em;
+    line-height:1rem;
+    position:absolute;
+    text-align:center;
+    text-decoration:none;
+    width:2em;
+}
+
+ul.tree li.item a.plus {
+    font-size:1.4rem;
+    margin-top:.2rem;
+}
+
+ul.tree li.item a.minus {
+    font-size:1.4rem;
+        
+}
+ul.tree li.item a:active {
+        top:1px;
+}
+
+ul.tree span {
+    display:inline-block;
+    margin:.25em .5em;
+}

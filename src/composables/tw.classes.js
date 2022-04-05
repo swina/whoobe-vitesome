@@ -34,6 +34,19 @@ const percs =  [ 'full','1/2',
 '11/12'
 ]
 
+const dimensions = [
+    'none',
+    'px',
+    'full',
+    'screen',
+    'min',
+    'max',
+    'prose',
+    'xs',
+    'sm',
+    'md',
+    'lg','xl','2xl','3xl','screen-sm','screen-md','screen-lg','screen-xl','screen-2xl','0','1','1.5','2','4','8','10','12','14','18','20','24','1/2','1/3','3/5','11/12','4rem','60px']
+
 const colors = [ 'gray' , 'bluegray' , 'brown' , 'red', 'yellow' , 'orange' , 'green' , 'lime' , 'teal' , 'blue' , 'indigo' , 'purple' , 'pink' ]
 
 function setPercs ( prefix ){
@@ -71,105 +84,21 @@ function setColors ( prefix ){
     let arr = ['transparent','white','black']
     colors.forEach ( color => {
         arr.push ( prefix + '-' + color)
-        arr.push ( 'hover:' + prefix + '-' + color )
+        //arr.push ( 'hover:' + prefix + '-' + color )
     })
     return arr
 }
 
+function setSizes ( prefix ){
+    let arr = dimensions.map ( size => prefix + size )
+}
+
 
 var classes = {
-    width: [ 
-        { label: 'auto', value: 'w-auto' }, 
-        { label: '0' , value: 'w-0' } , 
-        { label: '1' , value: 'w-1' } , 
-        { label: '2' , value: 'w-2' } , 
-        { label: '3' , value: 'w-3' } , 
-        { label: '4' , value: 'w-4' } , 
-        { label: '5' , value: 'w-5' } , 
-        { label: '6' , value: 'w-6' } , 
-        { label: '8' , value: 'w-8' } , 
-        { label: '10', value: 'w-10'}, 
-        { label: '12', value: 'w-12'} , 
-        { label: '16', value: 'w-16'} , 
-        { label: '20', value: 'w-20'} ,
-        { label: '24', value: 'w-24'} , 
-        { label: '32', value: 'w-32'} , 
-        { label: '40', value: 'w-40'} , 
-        { label: '48', value: 'w-48'} , 
-        { label: '56', value: 'w-56'} , 
-        { label: '64', value: 'w-64'} ,
-        { label: '8%' , value: 'w-1/12'} , 
-        { label: '16%' , value: 'w-1/6'} , 
-        { label: '20%' , value: 'w-1/5' },
-        { label: '25%' , value: 'w-1/4'}, 
-        { label: '33%' , value: 'w-1/3'} , 
-        { label: '40%' , value: 'w-2/5'} , 
-        { label: '50%' , value: 'w-1/2'} , 
-        { label: '60%' , value: 'w-3/5'} , 
-        { label: '66%' , value: 'w-2/3'} ,
-        { label: '75%' , value: 'w-3/4'} , 
-        { label: '80%' , value: 'w-4/5'} ,
-        { label: '83%' , value: 'w-5/6'} , 
-        { label: '90%' , value: 'w-11/12'} , 
-        { label: '100%', value: 'w-full'} ,
-        { label: 'screen', value: 'w-screen'} 
-    ],
-    height: [
-        { label: 'auto', value: 'h-auto' }, 
-        { label: '0' , value: 'h-0' } , 
-        { label: '1' , value: 'h-1' } , 
-        { label: '2' , value: 'h-2' } , 
-        { label: '3' , value: 'h-3' } , 
-        { label: '4' , value: 'h-4' } , 
-        { label: '5' , value: 'h-5' } , 
-        { label: '6' , value: 'h-6' } , 
-        { label: '8' , value: 'h-8' } , 
-        { label: '10', value: 'h-10'}, 
-        { label: '12', value: 'h-12'} , 
-        { label: '16', value: 'h-16'} , 
-        { label: '20', value: 'h-20'} ,
-        { label: '24', value: 'h-24'} , 
-        { label: '32', value: 'h-32'} , 
-        { label: '40', value: 'h-40'} , 
-        { label: '48', value: 'h-48'} , 
-        { label: '56', value: 'h-56'} , 
-        { label: '64', value: 'h-64'} , 
-        { label: '20%' , value: 'h-1/5'},
-        { label: '25%' , value: 'h-1/4' },
-        { label: '33%' , value: 'h-1/3' },
-        { label: '40%' , value: 'h-2/5' },
-        { label: '50%' , value: 'h-1/2' },
-        { label: '60%' , value: 'h-3/5' },
-        { label: '66%' , value: 'h-2/3' },
-        { label: '75%' , value: 'h-3/4' },
-        { label: '80%' , value: 'h-4/5' },
-        { label: 'full',value: 'h-full' } , 
-        { label: 'screen' , value: 'h-screen' }
-    ],
-    maxWidth : [
-        { label : 'none' , value : 'max-w-none' },
-        { label: '0' , value: 'max-w-0' },
-        { label : 'xs' , value : 'max-w-xs' },
-        { label : 'sm' , value : 'max-w-sm' },
-        { label : 'md' , value : 'max-w-md' },
-        { label : 'lg' , value : 'max-w-lg' },
-        { label : 'xl' , value : 'max-w-xl' },
-        { label : '2xl' , value : 'max-w-2xl' },
-        { label : '3xl' , value : 'max-w-3xl' },
-        { label : '4xl' , value : 'max-w-4xl' },
-        { label : '5xl' , value : 'max-w-5xl' },
-        { label : '6xl' , value : 'max-w-6xl' },
-        { label : '7xl' , value : 'max-w-7xl' },
-        { label : 'full' , value : 'max-w-full' },
-        { label : 'min' , value : 'max-w-min' },
-        { label : 'max' , value : 'max-w-max' },
-        { label : 'prose' , value : 'max-w-prose' },
-        { label : 'screen-sm' , value : 'max-w-screen-sm' },
-        { label : 'screen-md' , value : 'max-w-screen-md' },
-        { label : 'screen-lg' , value : 'max-w-screen-lg' },
-        { label : 'screen-xl' , value : 'max-w-screen-xl' },
-        { label : 'screen-2xls' , value : 'max-w-screen-2xl' }
-    ],
+    width: dimensions.map ( size => 'w-' + size ),
+    height: dimensions.map ( size => 'h-' + size),
+    maxWidth : dimensions.map ( size => 'max-w-' + size ),
+    maxHeight : dimensions.map ( size => 'max-h-' + size) ,
     semantics:['article','aside','details','div','figcaption','figure','footer','form','header','hero','label','main','mark','nav','product','section','span','summary','time'],
     textSize: [
         'text-xs' , 
@@ -212,21 +141,7 @@ var classes = {
     ],
     textOpacity: setOpacity('text-opacity'),
     textcolor: setColors('text'),
-    fontfamily: fonts
-    /*[
-        'Barlow Condensed',
-        'Abel',
-        'Alice',
-        'Alegreya',
-        'Amethysta',
-        'Lora',
-        'Nunito Sans',
-        'PT Sans',
-        'Raleway',
-        'Roboto',
-        'Quattrocento',
-    ]*/
-    ,
+    fontfamily: fonts,
     fontWeight: [
         'font-thin',
         'font-extralight',
@@ -239,21 +154,12 @@ var classes = {
         'font-black'
     ],
     bgOpacity: setOpacity('bg-opacity'),
-    // bgPosition:{
-    //     size: '',
-    //     position: '',
-    //     repeat: '',
-    //     attachment: '',
-    //     clip: '',
-    //     origin
-    // },
-    //bgSettings : {
-        bgSize :  [
+    bgSize :  [
         'bg-auto',
         'bg-cover',
         'bg-contain'
-        ],
-        bgPosition : [
+    ],
+    bgPosition : [
         'bg-center',
         'bg-top',
         'bg-bottom',
@@ -263,32 +169,31 @@ var classes = {
         'bg-right',
         'bg-right-top',
         'bg-right-bottom'
-        ],
-        bgRepeat : [
+    ],
+    bgRepeat : [
         'bg-no-repeat',
         'bg-repeat',
         'bg-repeat-x',
         'bg-repeat-y',
         'bg-repeat-round',
         'bg-repeat-space'
-        ],
-        bgAttachment: [
+    ],
+    bgAttachment: [
         'bg-fixed',
         'bg-local',
         'bg-scroll'
-        ],
-        bgClip: [
-            'bg-clip-border',
-            'bg-clip-padding',
-            'bg-clip-content',
-            'bg-clip-text'
-        ],
-        bgOrigin: [
-            'bg-origin-border',
-            'bg-origin-padding',
-            'bg-origin-content'
-        ],
-    //},
+    ],
+    bgClip: [
+        'bg-clip-border',
+        'bg-clip-padding',
+        'bg-clip-content',
+        'bg-clip-text'
+    ],
+    bgOrigin: [
+        'bg-origin-border',
+        'bg-origin-padding',
+        'bg-origin-content'
+    ],
     opacity: setOpacity('opacity'),
     colors: colors,
     bgcolor : setColors('bg'),
@@ -480,11 +385,11 @@ var classes = {
     paddingRight: setClass('pr'),
     paddingHorizontal: setClass('px'),
     paddingVertical: setClass('py'),
-    spacing: setPercs('p'),
-    spacingTop: setPercs('pt'),
-    spacingBottom: setPercs('pb'),
-    spacingLeft: setPercs('pl'),
-    spacingRight: setPercs('pr'),
+    spacingY: setPercs('space-y'),
+    spacingX: setPercs('space-x'),
+    //spacingBottom: setPercs('pb'),
+    //spacingLeft: setPercs('pl'),
+    //spacingRight: setPercs('pr'),
     margin: setClass('m',true),
     marginTop: setClass('mt',true),
     marginBottom: setClass('mb',true),

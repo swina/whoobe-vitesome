@@ -1,11 +1,11 @@
 <template>
-    <div :class="size" class="editor-dashboard relative m-10 p-2">
+    <div :class="size" class="editor-dashboard h-screen relative pl-2 py-2 pb-20">
       <div class="grid grid-cols-12 z-0 absolute inset-0 m-2 border mt-5" v-if="editor.showColumns">
         <template v-for="(n) in 12" :key="n">
           <div :class="n===1?'border-l':''" class="border-r h-4 h-screen"></div>
         </template>
       </div>
-      <div class="mt-4 h-screen border-2 border-purple-600 overflow-y-scroll pb-40" 
+      <div v-if="editor.document" class="editor-container mt-4 border-2 mr-10 h-screen border-purple-600 overflow-y-auto pb-40" 
         @click="editor.current = editor.document.json.blocks[0]" @contextmenu.prevent="openMenu($event)">
         <BlockContainer/>
       </div>
@@ -13,15 +13,17 @@
     
     <EditorToolbar/>
     
-    <SidebarRight v-if="editor.tool"/>
+    <SidebarRight v-if="useEditorSidebar.sidebar"/>
+
     <transition name="fade">
       <EditorPanel/>
     </transition>
-    <EditorStatusBar/>
+    
+    <EditorStatusBar v-if="editor.document"/>
     <div id="contextMenu" class="absolute z-modal bg-white" v-if="editor.current">
       <BlockFloatingBar @action="floatingAction"/>
     </div>
-    <div class="fixed top-0 left-0 m-10 text-xs z-10" v-if="editor.current && editor.current?.tag">
+    <div class="fixed top-0 left-0 m-10 mt-8 text-xs z-10" v-if="editor.current && editor.current?.tag">
       <div class="flex items-center breadcumb h-5 bg-black text-white px-4 justify-center ">{{ editor.current.semantic || editor.current.element }}</div>
     </div>
 </template>
@@ -33,15 +35,17 @@ import { useNavigatorStore } from '/@/stores/navigator';
 import { moveBlock , useStore , updateCSS } from '/@/composables/useActions'
 import twGroups from '/@/composables/tw.groups'
 import { hotKeys } from '/@/composables/hotKeys';
+import { useEditorSidebar } from '/@/composables/useNavigation';
 
     const hk = hotKeys()
 
     const editor = useStore()
     const navigation = useStore('navigation')
-
+    console.log ( editor.document )
     editor._wiTools ( twGroups )
     const size = computed(()=>{
-        return navigation.sidebar ? 'sidebar' : ''
+        return useEditorSidebar.sidebar ? 'w-3/4' : ''
+        //return navigation.sidebar ? 'w-3/4' : 'w-full'
     })
 
     const openMenu = (e) => {

@@ -5,6 +5,7 @@
             <option value=""></option>
             <option v-for="item in options" :value="item?.label?item.value:item" :key="item">{{ item?.label ? item.label.replace ( option.prefix ,'') : item.replace ( option.prefix , '' ) }}</option>
         </select>
+        {{ optionVariantsCSS.join(' ') }}
     </div> 
 </template>
 
@@ -22,7 +23,6 @@ const options = classes[props.option.attr]
 
 const editor = useEditorStore()
 
-let optionCSS = ref ()
 
 
 const setCSSValue = async () => {
@@ -30,12 +30,34 @@ const setCSSValue = async () => {
     editor.current.css.css = css
 }
 
-editor.$subscribe((mutation, state) => {
-    optionCSS.value = matchCSS ( opts , editor.current.css.css )
-})
+// editor.$subscribe((mutation, state) => {
+//     optionCSS.value = matchCSS ( opts , editor.current.css.css )
+// })
 
 let opts = options.map ( opt => { return opt?.label ? opt.value : opt } )
+let variants = ['xs:' , 'sm:' , 'md:', 'lg:' , 'xl:' ]
+let optsVariants = []
 
+opts.forEach ( opt => {
+    variants.map ( variant => {
+        optsVariants.push ( variant + opt )
+    })
+})
+
+let optionCSS = ref ('')
+let optionVariantsCSS = ref ([])
+
+
+editor.$subscribe ( (mutation,state) => {
+    optionVariantsCSS.value = []
+    optionCSS.value =  matchCSS( opts , editor.current.css.css  )
+    optsVariants.forEach ( a => {
+        editor.current.css.css.split(' ').forEach ( b => {
+            b === a ? optionVariantsCSS.value.push ( b ) : null
+        })
+    })
+    //optionVariantsCSS.value = matchCSS ( optsVariants , editor.current.css.css ) 
+})
 
 //const optionCSS = ref ({})
 
