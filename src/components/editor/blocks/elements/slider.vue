@@ -1,5 +1,8 @@
 <template>
-    <div class="flex flex-col border-yellow-400 border-2 border-dashed m-2 w-full border p-1 relative" :class="'z-' + level">
+    <div 
+        @click="selectBlock(block,$event)"
+        :id="block.id" class="flex flex-col border-yellow-400 border-2 border-dashed m-2 w-full border p-1 relative" 
+        :class="'z-' + level">
         <div class="absolute top-0 right-0 m-1 flex items-center">
             <span class="text-xs text-gray-300 p-1">{{ block.data.mode }}</span>
             <span @click="newSlide" title="Add slide"><icon icon="mdi:add"/></span>

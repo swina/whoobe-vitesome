@@ -1,13 +1,13 @@
 <template>
-    <component :is="component" :id="block.id" :class="blockCSS(block)" class="relative">
+    <component :is="component" :id="block.id" :class="blockCSS(block)" class="relative" x-data="{slide:'0'}">
         <div class="flex flex-row w-full" v-if="block.data.mode==='tabs'">
             <template v-for="(tab,n) in block.blocks.length" :key="tab">
-                <div @click="index=n" class="carousel_tab cursor-pointer"  :class="tabCSS(n)" :data-active="n===index?true:false" :data-tab="n" :data-css-active="block.data.css.active" :data-css="block.data.css.default + ' ' + block.data.css.hover">
+                <div @click="index=n" :x-on:click="slideClick(n)" class="carousel_tab cursor-pointer"  :class="tabCSS(n)" :data-active="n===index?true:false" :data-tab="n"  :data-css-active="block.data.css.active" :data-css="block.data.css.default + ' ' + block.data.css.hover" :x-bind:class="bindClass(block,n)">
                     <span v-if="block.data.mode==='tabs'">{{ block.data.slides[n].name }}</span>
                 </div>
             </template>
         </div>
-        <div v-for="(element,i) in block.blocks" class="slide-content" :class="classe(i)">
+        <div v-for="(element,i) in block.blocks" class="slide-content" :x-show="slide(i)" :class="classe(i)">
             <BlockPreview
                 v-if="element.type === 'container'"
                 :block="element"
@@ -48,7 +48,7 @@ const slider = props.block
 
 const classe = (i) => {
     let css = ''
-    return i === index.value ? css : css += ' hidden'
+    return i === index.value ? css : css += ' '
 }
 
 const tabCSS = (n) => {
@@ -57,11 +57,21 @@ const tabCSS = (n) => {
         props.block.data.css.active 
 }
 
+const slideClick = (index) => {
+    return "slide = '" + index + "'"
+}
+const slide = (index) => {
+    return "slide==='" + index + "'"
+}
 const sliderNav = (direction:String) => {
     return { 
         icon: props.block.data.settings.navigation.icons[direction] , 
         css: props.block.data.settings.navigation.icons.css 
     }
+}
+
+const bindClass = ( block:Object , index) => {
+    return "{'" + block.data.css.active + "' : slide ==='" +  index + "'}"
 }
 
 const prev = () => {

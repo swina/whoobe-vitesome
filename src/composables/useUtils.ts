@@ -7,6 +7,12 @@ export const message = reactive({
   data:''
 })
 
+export const dragDrop = reactive({
+  source:Object,
+  target:Object
+})
+
+
 export function slugify ( value:string ){
     if ( !value ) return ''
     return value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')

@@ -14,7 +14,8 @@ export const status = reactive ({
     archive: false,
     dialog: null ,
     dialogCss : 'w-1/3',
-    dialogTitle: ''
+    dialogTitle: '',
+    current: null
 })
 
 export const toolbar = reactive({

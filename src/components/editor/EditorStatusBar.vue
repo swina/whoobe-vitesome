@@ -15,6 +15,10 @@
             <Icon icon="ic:baseline-save" class="text-xl"/>
         </span>
 
+        <span @click="saveTemplateAs($event)" class="mx-2" title="Save As">
+            <Icon icon="codicon:save-as" class="mt-1 text-xl"/>
+        </span>
+
         <span @click="blockToProject($event)" class="mx-2" title="Add to project">
             <Icon icon="mdi:web" class="text-xl"/>
         </span>
@@ -31,7 +35,7 @@
         <!-- <div class="w-1/4"></div> -->
     </div>
     <div class="file-explorer fixed left-0 top-0 z-modal w-1/3 h-screen" v-if="selectFolder" @click="selectFolder=!selectFolder">
-        <FileExplorer context="templates" :open="selectFolder" :onlyFolder="true"/>
+        <TreeContainer context="templates" :open="selectFolder" :onlyFolder="true"/>
     </div>
 </template>
 
@@ -41,13 +45,14 @@ import { PREVIEW , setLocalStorage , useStore } from '/@/composables/useActions'
 import { openContextDialog } from '/@/composables/contextMenu';
 import { status } from '/@/composables/useNavigation'
 import { project } from '/@/composables/useProject'
-import { saveFile } from '/@/composables/useLocalApi';
+import { saveFile , fileExplorer } from '/@/composables/useLocalApi';
 import { message } from '/@/composables/useUtils'
 
 const editor = useStore()
 
 const selectFolder = ref(false)
-
+let tree = ref({})
+let folders = ref({})
 const preview = () => {
     setLocalStorage ( PREVIEW , editor.document )
     editor._preview()
@@ -60,8 +65,6 @@ const blockToProject = (e) => {
 }
 
 
-
-
 const saveTemplate = async () => {
     if ( editor.document?.path ){
         await saveFile ( editor.document )
@@ -69,14 +72,30 @@ const saveTemplate = async () => {
     } else {
         selectFolder.value = true 
     }
-    // await fetch ( 'http://localhost:9000/template/' + editor.document.name.replaceAll(' ','-').toLowerCase() ,{
-    //     method: 'POST',
-    //     headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(editor.document) 
-    // })
+    message.data = 'File saved'
     console.log ( 'File saved' )
 }
+
+const saveTemplateAs = async () => {
+    // if ( editor.document?.path ){
+    //     await saveFile ( editor.document )
+    //     message.data = 'File saved'
+    // } else {
+    //     selectFolder.value = true 
+    // }
+    // message.data = 'File saved'
+    // console.log ( 'File saved' )
+    selectFolder.value = true
+    console.log ( tree.value )
+}
+
+const loadTree = async ( context:String = "templates" ) => {
+    tree.value = await fileExplorer ( context )
+    folders.value = tree.value.children.filter ( a => a.type === 'directory' ).sort()
+    tree.value.children.forEach ( a => {
+        if ( a.type === 'file' )
+            folders.value.push ( a )
+    })
+}
+loadTree()
 </script>

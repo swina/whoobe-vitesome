@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useStore } from '/@/composables/useActions'
-import { saveSveltePage , activeProject, saveFile } from '/@/composables/useLocalApi'
+import { saveSveltePage , activeProject, saveFile, saveStaticPage } from '/@/composables/useLocalApi'
 import { project , exportDocument } from '/@/composables/useProject'
 import { slugify , message } from '/@/composables/useUtils';
 
@@ -54,6 +54,8 @@ const removeTag = (index:Number)=>{
 }
 
 const saveDocument = () => {
+    props.mode === 'saveHTML' ?
+        saveAsStaticPage() : null
     props.mode === 'addToProjectPages' ?
         addToProjectPages() : null
     props.mode === 'addToProjectHomepage' ?
@@ -61,6 +63,19 @@ const saveDocument = () => {
     props.mode === 'saveAsSveltePage' ?
         saveAsSveltePage() : null
 
+}
+
+const saveAsStaticPage = async () => {
+    let slug = prompt ( 'Page slug' , slugify(editor.document.name))
+    slug = slugify ( slug )
+    let page = {
+        html: documentHTML(),
+        slug: slug,
+        document: editor.document
+    }
+    await saveStaticPage ( page )
+    message.data = 'Saved as HTML page'
+    emits ('close' )
 }
 
 const addToProjectPages = async () => {

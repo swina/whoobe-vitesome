@@ -1,6 +1,8 @@
 import { reactive } from 'vue'
+import jp from 'jsonpath'
 const endpoint = import.meta.env.VITE_APP_LOCAL_API
 export const SVELTEURL = import.meta.env.VITE_APP_SVELTE_URL
+export const PAGESURL = import.meta.env.VITE_APP_PAGES_URL
 
 export const paths = { 
     templates : '/templates',
@@ -9,9 +11,19 @@ export const paths = {
     current: '/current',
     build: '/build',
     svelte: '/svelte',
+    pages: '/pages',
     url: import.meta.env.VITE_APP_SVELTE_URL
 
 }
+
+
+export const fileTree = reactive({
+    folders:Object,
+    lastSource:Object,
+    lastTarget:Object
+})
+
+
 
 export const currentFolder = reactive({
     path: null
@@ -78,6 +90,16 @@ export const saveFile = async ( json:Object ) => {
     })
 }
 
+export const moveFile = async ( source:String , target: String , filename:String , fs:Object ) => {
+    const mv = await fetch ( endpoint + '/move?source=' + source + '&target=' + target + '&filename=' + filename )
+    return await mv.json() ?? mv 
+}
+
+export const deleteFile = async ( path:String ) => {
+    const rm = await fetch ( endpoint + '/delete?path=' + path )
+    return await rm.json() ?? rm
+}
+
 export const activeProject = async ( json:Object ) => {
     await fetch ( endpoint + '/current' ,{
         method: 'POST',
@@ -89,12 +111,18 @@ export const activeProject = async ( json:Object ) => {
     })
 }
 
-export const addFolder = async ( context: String ) => {
-    const folder = prompt ( 'Folder name ?')
+export const addFolder = async ( context: String , name: String ) => {
+    const folder = name ? name : prompt ( 'Folder name ?')
     const res = await fetch ( endpoint + '/folder/add?name=' + folder + '&context=' + context )
     const ok = await res.json()
     return ok
+}
 
+export const newFolder = async ( path: String , name : String ) => {
+    //const res = await fetch ( endpoint + '/folder/create' + '&path=' + path )
+    await fetch ( endpoint + '/folder/create' , {
+        body: path + '/' + name
+    })
 }
 
 export const saveSveltePage = async ( page: Object ) => {
@@ -105,5 +133,37 @@ export const saveSveltePage = async ( page: Object ) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(page) 
+    })
+}
+
+
+export const saveStaticPage = async ( page: Object ) => {
+    let doc = page
+    doc.html = `<!DOCTYPE html><html lang="en">
+        <head>
+            <title>${page.document.name}</title>
+            <meta name="description" content="${page.document.description}">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="keywords" content="${page.document.tags.join(',')}">
+            <!--Material-icons-->
+            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+            <!--Google Fonts-->
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Abel|Bungee+Inline|Archivo+Black">
+            <script src="//unpkg.com/alpinejs" defer></script>
+            <meta charset="UTF-8">
+            <script src="https://cdn.tailwindcss.com"></script>   
+        </head>
+        <body>
+        ${page.html}
+        </body>
+        </html>`
+    console.log ( doc )
+    await fetch ( endpoint + '/save/html/' ,{
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(doc)
     })
 }

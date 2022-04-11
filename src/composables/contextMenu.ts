@@ -21,12 +21,12 @@ export function toggleContext ( e:object ){
 export function openContextDialog ( e:object , classe:string ){
     
     let dialog = document.querySelector ( '#contextDialog' )
-    if ( dialog.classList.contains('hidden') ){
-        dialog.classList.remove ( 'hidden' )
-        classe ? dialog.classList.add ( classe ) : null
-    } else {
-        dialog.classList.add ( 'hidden' )
-    }
+    // if ( dialog.classList.contains('hidden') ){
+    //     dialog.classList.remove ( 'hidden' )
+    //     classe ? dialog.classList.add ( classe ) : null
+    // } else {
+    //     dialog.classList.add ( 'hidden' )
+    // }
 }
 
 export function openCtx ( id:String , e:object ){

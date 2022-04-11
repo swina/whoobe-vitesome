@@ -6,6 +6,7 @@
 
     <div class="fixed hidden z-modal cursor-pointer text-white p-2 bg-black" id="previewCtx" @mouseleave="closeCtx('previewCtx')">
         <ul>
+            <li class="py-2 p-1 hover:text-blue-400" v-if="project.data" @click="saveHTMLPage">Save as Page</li>
             <li class="py-2 p-1 hover:text-blue-400" v-if="project.data" @click="saveAsProjectHomepage">Save as website Homepage</li>
             <li class="py-2 p-1 hover:text-blue-400" v-if="project.data" @click="saveAsProjectPage">Save as website page</li>
             <li class="py-2 p-1 hover:text-blue-400" @click="saveAsSveltePage">SvelteKit page ...</li>
@@ -57,14 +58,19 @@ const saveAsProjectHomepage = () => {
     }
 }
 
+const saveHTMLPage = async () =>{
+    mode.value = 'saveHTML'
+    settings.value = true
+}
+
 
 const openContextMenu = (e) => {
     e.preventDefault()
-    if ( !project.data.init ){
+    // if ( !project.data.init ){
         openCtx('previewCtx', e)
-    } else {
-        message.data = 'No project defined'
-    }
+    // } else {
+    //     message.data = 'No project defined'
+    // }
 }
 
 </script>

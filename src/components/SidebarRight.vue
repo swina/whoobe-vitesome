@@ -16,7 +16,7 @@
         <BlockWindi v-if="editor.tool === 'customize'" :group="editor.toolGroup"/>
         <BlockSlider v-if="editor.tool === 'slider'"/>
         <BlockTree v-if="editor.tool === 'tree'"/>
-        
+        <BlockAlpine v-if="editor.tool === 'alpine'"/>
         <div id="root" class="ml-4 text-white overflow-y-auto"></div>
     </div>
 </template>

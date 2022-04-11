@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 9000
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const bodyParser = require("body-parser");
 var cors = require('cors')
@@ -20,6 +20,7 @@ const uikits    = "./server/data/uikits";
 const build     = "/app/sveltekit/src/lib/pages";
 const svelte    = "/app/sveltekit/src/routes";
 const sveltekit = "/app/sveltekit/src/lib";
+const static    = "/app/pages";
 const local     = "./server/data";
 
 const paths = {
@@ -29,6 +30,8 @@ const paths = {
     uikits: uikits,
     build: build,
     svelte: svelte,
+    static: static,
+    pages: static,
     local: local
 }
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -51,7 +54,7 @@ app.get ( '/tree/:name' , ( req , res ) => {
 })
 
 app.get('/file' , ( req , res ) => {
-    if ( req.query.path ){
+    if ( req.query.path && path.resolve ( req.query.path ) && fs.existsSync ( req.query.path ) ){
         const rawdata = fs.readFileSync ( path.resolve ( req.query.path ) )
         try {
             res.json ( JSON.parse(rawdata) )
@@ -64,8 +67,32 @@ app.get('/file' , ( req , res ) => {
 })
 
 app.get('/' , ( req, res ) => {
+    console.log ( req.ip )
     const rawdata = require( path.resolve ( current ) + '/config.json' )
     res.json ( rawdata )
+})
+
+app.get ('/move' , ( req, res ) => {
+    //if ( fs.statSync( req.query.target ).isDirectory() ){
+    if ( fs.statSync( req.query.target ).isDirectory() && path.resolve ( req.query.source ) ){    
+        try {
+            fs.move ( path.resolve ( req.query.source ) , path.resolve ( req.query.target ) + '/' + req.query.filename )
+            res.json ( { message: 'File moved' } )
+        } catch (err){
+            console.log ( 'move error ' , err )
+            res.json ( { message: err } )
+        }
+    } else {
+        res.json ( { message: 'Drag to a folder' } )
+    }
+})
+
+
+app.get ( '/delete' , ( req , res ) => {
+    if ( path.resolve ( req.query.path ) ){
+        fs.removeSync ( path.resolve ( req.query.path ) )
+        res.json ( { message: 'Item deleted' } )
+    }
 })
 
 // app.get('/projects', (req, res) => {
@@ -127,6 +154,15 @@ app.post('/file/save' , (req, res) => {
 // @body.path = file full path (required)
 app.post('/svelte/page' , (req, res) => {
     let stream = fs.createWriteStream( path.resolve ( paths['svelte'] ) + '/' + req.body.slug + '.svelte' )
+    stream.once('open', function(fd) {
+        stream.write(req.body.html);
+        stream.end();
+    });
+    res.send ( req.body )
+})
+
+app.post('/save/html' , (req, res) => {
+    let stream = fs.createWriteStream( path.resolve ( paths['static'] ) + '/' + req.body.slug + '.html' )
     stream.once('open', function(fd) {
         stream.write(req.body.html);
         stream.end();

@@ -17,7 +17,7 @@ export default ({ mode }) => {
   server: {
     port: 3000,
     watch: {
-      ignored: ["**/server/**","**/sveltekit/**"],
+      ignored: ["**/server/**","**/sveltekit/**","/pages/**"],
     },
   },
   resolve: {

@@ -12,18 +12,27 @@ import { tabber , status } from '/@/composables/useNavigation'
           navigation.tabs[navigation.tab]?.component && navigation.tabs[navigation.tab].component === 'Editor' ?
             'w-4/5' : 'w-full' : 'w-full'
     })
+    
     onMounted(async () => {
       const elements = new Element().Groups()
       editor.elements = elements
       navigation._message ( '' )
+     
     })
-
+    // const loadTree = async ( context ) => {
+    //   tree.value = await fileExplorer ( context )
+    //   folders.value = tree.value.children.filter ( a => a.type === 'directory' ).sort()
+    //   tree.value.children.forEach ( a => {
+    //       if ( a.type === 'file' )
+    //           folders.value.push ( a )
+    //   })
+    // }
 </script>
 
 <template>
   <!-- <div class="absolute inset-0 bg-bluegray-100 h-screen w-screen"></div> -->
   <Dashboard :size="size" v-if="!editor.preview"/>
-  <Home v-if="tabber.tab < 0"/>
+  <!-- <Home v-if="tabber.tab < 0"/> -->
   
   <SidebarLeft/>
   <!-- <Archive v-if="status.archive"/> -->

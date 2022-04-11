@@ -3,7 +3,7 @@
       <Archive  v-if="loadthis() === 'Archive'"/>
       <Editor   v-if="loadthis() === 'Editor'"/>
       <UIKits   v-if="loadthis() === 'UIKits'"/>
-      <Project  v-if="loadthis() === 'Project'"/>
+      <Pages  v-if="loadthis() === 'Project'"/>
       <Svelte   v-if="loadthis() === 'Svelte'"/>
       <!-- <div v-if="tabber.tabs">
       {{ tabber.tabs[tabber.tab].component }}

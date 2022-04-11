@@ -87,6 +87,7 @@
                 </template>
             </div>
         </div>  
+        <Preview class="hidden" v-if="editor.document"/>
     </div>                      
 </template>
 
@@ -94,11 +95,16 @@
 import { ref } from 'vue'
 import { project } from '/@/composables/useProject'
 import { saveFile , activeProject } from '/@/composables/useLocalApi'
+import { useStore } from '/@/composables/useActions'
 
+const editor = useStore()
 const props = defineProps ({
     data:Object
 })
 
+if ( project ){
+    console.log ( project.data )
+}
 const tab = ref ('settings')
 // let mode = ref ( 'list' )
 //let project = ref ( props.data )
