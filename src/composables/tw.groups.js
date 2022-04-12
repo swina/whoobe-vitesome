@@ -36,18 +36,19 @@ const twgroups = [
     },
     { label: 'position', components : [ 
         { name: 'Options' , attr: 'positionelement' , title: 'position' },
-        { name: 'Checkbox' , attr: 'positionTop' , title: 'top' , css: 'float-left'},
-        { name: 'Checkbox' , attr: 'positionLeft' , title: 'left' , css: 'float-left' },
-        { name: 'Checkbox' , attr: 'positionBottom' , title: 'bottom' , css: 'float-left' },
-        { name: 'Checkbox' , attr: 'positionRight' , title: 'right' , css: 'float-none' },
-        { name: 'Position' , attr: 'position' },
-        { name: 'Range' , attr: 'zindex' , title: 'z index'},
-        { name: 'Options' , attr: 'objectfit' , title: 'Object fit' }
+        { name: 'Options' , attr: 'zindex' , title: 'z index' , prefix: 'z-' },
+        // { name: 'Position' , attr: 'position' },
+        { name: 'Checkbox' , attr: 'top-0' , title: 'top' , css: 'float-left' },
+        { name: 'Checkbox' , attr: 'left-0' , title: 'left' , css: 'float-left'  },
+        { name: 'Checkbox' , attr: 'bottom-0' , title: 'bottom' , css: 'float-left' },
+        { name: 'Checkbox' , attr: 'right-0' , title: 'right' , css: 'float-none' },
+        { name: 'Options' , attr: 'objectfit' , title: 'Object fit' , prefix: 'object-'}
     ]},
     { label: 'dimension' , components: [ 
         { name: 'Options' , attr: 'width' , title: 'width' , prefix: 'w-' },
-        { name: 'Width' , attr: 'maxWidth' , title: 'Max Width'},
-        { name: 'Height' , attr: 'height' , title: 'height' } 
+        { name: 'Options' , attr: 'maxWidth' , title: 'Max Width' , prefix: 'max-w-'},
+        { name: 'Options' , attr: 'height' , title: 'height' , prefix: 'h-' } ,
+        { name: 'Options' , attr: 'maxHeight' , title: 'Max height' , prefix: 'max-h-'},
     ]},
     { label: 'typography' , components: [ 
         { name: 'Button' , group: 'text-decoration' , attr: 'italic' , title : 'italic' , icon: 'format_italic' , css: 'float-left'},
@@ -72,10 +73,7 @@ const twgroups = [
     { label: 'background color' , components: [ 
         { name: 'BlockColor', title: 'background color' , prefix: 'bg' },
     ]},
-    { label: 'background' , components: [ 
-        //{ name: 'Color' , attr: 'bgcolor'},
-        // { name: 'Range' , attr: 'bgOpacity' , title: 'opacity' },
-        //{ name: 'BgPosition' , attr: 'bgposition' },
+    { label: 'background' , components: [
         { name: 'Image'     , attr: null , title: 'Image' , prefix: null },
         { name: 'Options' , attr: 'bgSize' , title: 'Size' , prefix: 'bg-' },
         { name: 'Options' , attr: 'bgPosition' , title: 'Position' , prefix: 'bg-' },
@@ -88,9 +86,9 @@ const twgroups = [
     ]},
     { label: 'gradient' , components: [ 
         { name: 'BgGradient' , attr: 'from' , title: 'gradient from' , css: 'float-left' , group: true },
-        { name: 'BgGradient' , attr: 'via' , title: 'gradient via' , css: 'float-left' , group: true },
-        { name: 'BgGradient' , attr: 'to' , title: 'gradient to' , css: 'float-left' , group: true },
-        { name: 'Options' , attr: 'gradient' , title: 'direction' , css: 'flex w-full' , group: true },
+        // { name: 'BgGradient' , attr: 'via' , title: 'gradient via' , css: 'float-left' , group: true },
+        // { name: 'BgGradient' , attr: 'to' , title: 'gradient to' , css: 'float-left' , group: true },
+        { name: 'Options' , attr: 'gradient' , title: 'direction' , css: 'flex w-full' , prefix: 'gradient-' },
         { name: 'BgGradientPresets' , attr: 'gradientPreset' , title: 'Presets' , css: 'flex w-full' , group: true },
     ]},
     { label: 'padding', components : [ 
@@ -119,43 +117,41 @@ const twgroups = [
         { name: 'Options' , attr: 'marginAuto' , title: 'auto' , prefix: 'm-' }
     ] },
     { label: 'border', components : [ 
-        { name: 'Range' , attr: 'border' , title: 'all' },
-        { name: 'Range' , attr: 'borderTop' , title: 'top' },
-        { name: 'Range' , attr: 'borderRight' , title: 'right' },
-        { name: 'Range' , attr: 'borderBottom' , title: 'bottom' },
-        { name: 'Range' , attr: 'borderLeft' , title: 'left' },
-        { name: 'BorderColor' , attr: 'bordercolor' },
-        { name: 'Options' , attr: 'borderType' },
-        { name: 'Range' , attr: 'borderOpacity' , title: 'opacity' }
+        { name: 'Options' , attr: 'border' , title: 'all' , prefix: 'border-' },
+        { name: 'Options' , attr: 'borderTop' , title: 'top' , prefix: 'border-t-'},
+        { name: 'Options' , attr: 'borderRight' , title: 'right' , prefix: 'border-r-'},
+        { name: 'Options' , attr: 'borderBottom' , title: 'bottom' , prefix: 'border-b-' },
+        { name: 'Options' , attr: 'borderLeft' , title: 'left' , prefix: 'border-l-' },
+        { name: 'Options' , attr: 'borderType' , title: 'type' , prefix: 'border-'  },
+        { name: 'BlockColor' , attr: 'bordercolor' , title: 'color' , prefix: 'border' },
+        { name: 'Options' , attr: 'borderOpacity' , title: 'opacity', prefix: 'border-opacity-' }
     ]},
-    { label: 'rounded / shadow / +', components : [ 
-        { name: 'Options' , attr: 'rounded' },
-        { name: 'Options' , attr: 'shadow' },
-        { name: 'Checkbox' , attr: 'grayscale' , title: 'grayscale' },
-        { name: 'Range' , attr: 'opacity' , title: 'opacity'} 
+    { label: 'rounded / shadow / opacity', components : [ 
+        { name: 'Options' , attr: 'rounded' , title: 'rounded' , prefix: 'rounded-'  },
+        { name: 'Options' , attr: 'shadow' , title: 'shadow' , prefix: 'shadow-'},
+        { name: 'Checkbox' , attr: 'grayscale' , title: 'grayscale' , prefix: '' },
+        { name: 'Options' , attr: 'opacity' , title: 'opacity' ,  prefix: 'opacity-'} 
     ]},
     { label: 'CSS Animation', components : [ 
-        { name: 'Options' , attr: 'animation' , title: 'animation'}
+        { name: 'Options' , attr: 'animation' , title: 'animation', prefix: 'animate-'}
     ]},
     { label: 'Transition', components : [ 
-        { name: 'Options' , attr: 'transition' , title: 'transition type'},
-        { name: 'Options' , attr: 'transitionDuration' , title: 'transition duration'},
-        { name: 'Options' , attr: 'transitionTiming' , title: 'timing function'},
-        { name: 'Options' , attr: 'transitionDelay' , title: 'transition delay'}
+        { name: 'Options' , attr: 'transition' , title: 'type' , prefix: 'transition-'},
+        { name: 'Options' , attr: 'transitionDuration' , title: 'duration' , prefix: 'duration-'},
+        { name: 'Options' , attr: 'transitionTiming' , title: 'ease' , prefix: 'ease-'},
+        { name: 'Options' , attr: 'transitionDelay' , title: 'transition delay', prefix: 'delay-'}
     ]},
     { label: 'transform', components : [ 
-        { name: 'Options' , attr: 'skewX' , required: 'transform' , title: 'Skew X' },
-        { name: 'Options' , attr: 'skewY' , required: 'transform' , title: 'Skew Y' },
-        { name: 'Options' , attr: 'rotate' , required: 'transform' },
-        { name: 'Options' , attr: 'clipPath' , required: 'transform' , title: 'clip path'},
-        { name: 'Options' , attr: 'rotate3D' , title: 'Perspective'} 
+        { name: 'Options' , attr: 'skewX' , required: 'transform' , title: 'Skew X' , prefix: 'skew-x-'  },
+        { name: 'Options' , attr: 'skewY' , required: 'transform' , title: 'Skew Y' , prefix: 'skew-y-'},
+        { name: 'Options' , attr: 'rotate' , required: 'transform' , title: 'Rotate' , prefix: 'rotate-' },
+        { name: 'Options' , attr: 'clipPath' , required: 'transform' , title: 'clip path' , prefix: ''},
+        { name: 'Options' , attr: 'rotate3D' , title: 'Perspective' , prefix: 'perspective-'} 
     ]}, 
     { label: 'spacing', components : [ 
-        { name: 'Options' , attr: 'spacing' , title: 'all' },
-        { name: 'Options' , attr: 'spacingTop' , title: 'top' },
-        { name: 'Options' , attr: 'spacingBottom' , title: 'bottom' },
-        { name: 'Options' , attr: 'spacingLeft' , title: 'left' },
-        { name: 'Options' , attr: 'spacingRight' , title: 'right' },
+        //{ name: 'Options' , attr: 'spacing' , title: 'all' , prefix: 'spacing-' },
+        { name: 'Options' , attr: 'spacingY' , title: 'between Y' , prefix: 'space-y-'},
+        { name: 'Options' , attr: 'spacingX' , title: 'between X' , prefix: 'space-x-'},
     ] },
     
 ]

@@ -1,6 +1,5 @@
 <template>
     <div class="bars sidebarLeft">
-
         <template v-for="item in items" :key="item.label">
             <span @click="addTab(item)" :title="item.label"><i class="iconify text-2xl" :data-icon="item.icon" :title="item.label"/></span>
         </template>
@@ -8,28 +7,28 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from 'vue';
+import { tabberAddTab , status } from '/@/composables/useNavigation';
 
-import { defineComponent, ref } from 'vue';
-import { action } from '/@/composables/useActions';
-
-export default defineComponent({
-  name: 'SidebarLeft',
-  setup() {
-    
     const title = ref('SidebarLeft');
 
     const items = ref ([
-            { label: 'New Template' , icon: 'emojione-monotone:new-button' , component: 'Editor' },
-            { label: 'UI Kits' , icon: 'mdi:widgets' , component: 'UIKits' },
-            { label: 'Project' , icon: 'mdi:web' },
-            { label: 'Settings' , icon: 'carbon:settings-adjust'}])
+      
+      { label: 'Templates' , icon: 'carbon:volume-file-storage' , component: 'Archive' },
+      { label: 'New Template' , icon: 'emojione-monotone:new-button' , component: 'Editor' },
+      { label: 'UI Kits' , icon: 'mdi:widgets' , component: 'UIKits' },
+      { label: 'Projects' , icon: 'mdi:web'  , component: 'Project' },
+      { label: 'Svelte' , icon: 'cib:svelte' , component : 'Svelte' },
+      { label: 'Settings' , icon: 'carbon:settings-adjust'  , component: 'Settings'}
+    ])
     
     const addTab = (component: object) => {
-        action ( 'addTab' , component )
+      if ( component.component)
+        tabberAddTab ( component )
+      if ( component?.status )
+        //status[component.status] = !status[component.status]
+        status.fileexplorer = component.status
+      
     }
-
-    return { title, items, addTab };
-  },
-});
 </script>

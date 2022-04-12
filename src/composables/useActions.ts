@@ -20,6 +20,10 @@ export const sliderTabs = reactive ({
     tabs : []
 })
 
+export const tabs = reactive ( {
+    tab: 0
+})
+
 export const sliderObject = reactive ( {
     slider: null
 })
@@ -99,6 +103,7 @@ export async function action( action: string , params: any) {
             component: params.component,
             object: obj
         })
+        tabs.tab = navigation.tabs.length - 1
         navigation.tab = navigation.tabs.length - 1
     }
    
@@ -114,6 +119,19 @@ export function dispatchEditorTool( data: any ){
     return false
 }
 
+
+export async function createTemplate ( name:String ){
+    let document = await new Block();
+    let block = await new Element().Flexbox()
+    //element = await new Element().Paragraph()
+    block.semantic = 'section'
+    //block.blocks.push ( element )
+    document.name = name ?? 'A new template'
+    document.json.blocks =  block 
+    editor._document ( document )
+    editor._current ( document )
+    return document
+}
 
 export function selectBlock ( block: object , event: object ){
     event.stopPropagation()
@@ -213,7 +231,8 @@ export function blockCoords ( e ){
 
 
 export function cleanCSS ( css:string ) {
-    return css.split(' ').filter ( cl => cl != '').join(' ')
+    return css.trim()
+    //return css.split(' ').filter ( cl => cl != '').join(' ')
 }
 
 export function arrayCSS ( css:string ){
@@ -228,7 +247,9 @@ export async function setCSSValue ( css:string ){
         editor.current.css.css = cl
         return
     } else {
-        editor.current.css.css += ' ' + css
+        let current = editor.current.css.css.trim()
+        current += ' ' + css 
+        editor.current.css.css = current
         return
     }
 
@@ -245,9 +266,13 @@ export function updateCSS ( arr:Array , classe:string , valore:string ){
 
 export function matchCSS ( arr:object , classe:string ){
     let css = ''
+
     arr.forEach ( a => {
-        classe.includes ( a ) ?
-            css = a : null
+        classe.split ( ' ' ).forEach ( b => {
+            b === a ? css = b : null
+        })
+        // classe.includes ( a ) ?
+        //     css = a : null
     })
     return css
 }

@@ -23,6 +23,7 @@ const i18n = createI18n({
 // WindiCSS
 import 'virtual:windi.css';
 import 'virtual:windi-devtools';
+//import './input.css'
 
 const app = createApp(App);
 

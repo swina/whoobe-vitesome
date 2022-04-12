@@ -1,10 +1,10 @@
 <template>
-    <div class="bars sidebarRight">
-        <div class="panelTitle bg-purple-900 uppercase cursor-pointer">Customize</div>
+    <!-- <div class="bars sidebarRight"> -->
+        <!-- <div class="panelTitle bg-purple-900 uppercase cursor-pointer">Customize</div> -->
         
         
         <template v-for="group in editor.wiTools">
-            <div v-if="enabledOption(group) && !editor.toolGroup" class="titleBar hover:bg-purple-900 text-xs uppercase cursor-pointer" :title="group.label" @click="editor._toolGroup ( group )">
+            <div v-if="enabledOption(group) && !editor.toolGroup" class="titleBar hover:bg-black text-xs uppercase cursor-pointer" :title="group.label" @click="editor._toolGroup ( group )">
                 {{ group.label }}
             </div>
         </template>
@@ -12,7 +12,7 @@
         
         <div v-if="editor.toolGroup" class="overflow-y-auto">
             <div class="titleBar bg-black text-xs flex items-center uppercase cursor-pointer" @click="editor._toolGroup(null)">
-                <Icon icon="la:chevron-left" class="text-xl mr-2"/> {{ editor.toolGroup.label }}
+                <Icon icon="bi:arrow-left-circle" class="text-xl mr-2"/> {{ editor.toolGroup.label }}
             </div>
             <div class="grid grid-cols-2">
                 <template v-for="option in editor.toolGroup.components">
@@ -20,11 +20,13 @@
                     <BlockFont v-if="option.name === 'BlockFont'"/>
                     <BlockImage v-if="option.name === 'Image'"/>
                     <BlockColor v-if="option.name === 'BlockColor'" :option="option" :context="option.prefix"/>
+                    <BlockGradient v-if="option.name === 'BgGradient'"/>
+                    <BlockCheckbox v-if="option.name === 'Checkbox'" :option="option"/>
                 </template>
             </div>
         </div>
         
-    </div>
+    <!-- </div> -->
 </template>
 
 <script setup lang="ts">

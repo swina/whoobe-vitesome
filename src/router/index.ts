@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/admin',
     component: () => import('/@/views/Admin.vue'),
-  },
+  }
   // {
   //   path: '/admin/preview',
   //   component: () => import('/@/components/preview/Preview.vue'),

@@ -1,6 +1,8 @@
 <template>
-    <div class="flex flex-col border-yellow-600 m-2 w-full border p-1 relative" :class="'z-' + level" 
-        >
+    <div 
+        @click="selectBlock(block,$event)"
+        :id="block.id" class="flex flex-col border-yellow-400 border-2 border-dashed m-2 w-full border p-1 relative" 
+        :class="'z-' + level">
         <div class="absolute top-0 right-0 m-1 flex items-center">
             <span class="text-xs text-gray-300 p-1">{{ block.data.mode }}</span>
             <span @click="newSlide" title="Add slide"><icon icon="mdi:add"/></span>
@@ -16,20 +18,20 @@
                 </span>
             </template>
         </div>
-        
-        <template v-for="(element,i) in slider.blocks">
-            <block
-                v-if="element.type === 'container' && index === i"
-                :block="element"
-                :level="level+1"/> 
-            <Element
-                :id="element.id"
-                :element="element"
-                v-if="element.type !='container' && element.type != 'slider'  && index === i"
-                :level="parseInt(level)+1"
-                />
-        
-        </transition>
+        <div :class="block.css.css">
+            <template v-for="(element,i) in slider.blocks">
+                <block
+                    v-if="element.type === 'container' && index === i"
+                    :block="element"
+                    :level="level+1"/> 
+                <Element
+                    :id="element.id"
+                    :element="element"
+                    v-if="element.type !='container' && element.type != 'slider'  && index === i"
+                    :level="parseInt(level)+1"
+                    />
+            </template>
+        </div>
     </div>
 </template>
 

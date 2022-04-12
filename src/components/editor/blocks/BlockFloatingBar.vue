@@ -1,16 +1,20 @@
 <template>
-    <div :class="editor.current.type === 'container' ? '-mt-10 ' : ''" class="flex border items-center px-2  justify-around h-10 bg-white shadow z-modal cursor-pointer w-auto py-1">
+    <div :class="editor.current.type === 'container' ? ' ' : ''" class="flex border items-center px-2  justify-around h-10 bg-white shadow z-modal cursor-pointer w-auto py-1">
         <div class="-mt-1"><Chip class="mr-2" :text="editor.current.semantic||editor.current.element"/></div>
         <template v-for="item in toolbar" :key="item.icon">
             <span v-if="filter(item)" @click="loadTool(item)"><icon :icon="item.icon" class="ml-1 text-2xl text-gray-700 hover:text-blue-700" :title="item.label" /></span>
         </template>
+        <span @click="copyBlock"><icon icon="fa6-regular:copy" class="ml-1 text-2xl text-gray-700 hover:text-blue-700" title="Copy" /></span>
+        <span @click="pasteBlock"><icon icon="fa6-regular:paste" class="ml-1 text-2xl text-gray-700 hover:text-blue-700" title="Paste" /></span>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useStore , updateCSS , moveBlock } from '/@/composables/useActions'
 import { toggleContext } from '/@/composables/contextMenu'
+import { useStore , updateCSS , moveBlock } from '/@/composables/useActions'
+import { setLocalStorage, getLocalStorage, cloneBlock , CLIPBOARD } from '/@/composables/useActions';
+import { message } from '/@/composables/useUtils';
 
 const editor = useStore()
 
@@ -28,7 +32,8 @@ const toolbar = ref ( [
     { icon: 'akar-icons:image' , label: 'Image' , action: 'customize' , group: 'background' },
     { icon: 'akar-icons:link-chain' , label: 'Link' , action: 'link' },
     { icon: 'ant-design:download-outlined' , label: 'Import block' , action: 'BlockImport' , filter: ['grid','flex'] },
-    { icon: 'ant-design:upload-outlined' , label: 'Export block' , action: 'BlockExport' , filter: ['grid','flex'] }
+    { icon: 'ant-design:upload-outlined' , label: 'Export block' , action: 'BlockExport' , filter: ['grid','flex'] } ,
+
 ])
 const filter = ( item: object ) => {
     if ( item?.filter ){
@@ -61,6 +66,21 @@ const loadTool = ( item: Object ) => {
     } else {
         editor._tool ( item.action , editor.current )
         editor._toolGroup ( null )
+    }
+}
+
+const copyBlock = () => {
+   setLocalStorage ( CLIPBOARD , editor.current )
+   message.data = 'Block/Element copied to clipboard'             
+}
+
+const pasteBlock = () => {
+    let block = cloneBlock ( getLocalStorage ( CLIPBOARD ) )
+    if ( block ){
+        editor.current.blocks.push ( block )
+        message.data = 'Block/Element pasted from clipboard'   
+    } else {
+        message.data = 'No valid block in clipboard'
     }
 }
 </script>

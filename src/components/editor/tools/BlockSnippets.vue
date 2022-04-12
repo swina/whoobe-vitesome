@@ -1,8 +1,8 @@
 <template>
-    <div v-if="snippets" class="relative min-h-screen top-0 mt-8 overflow-y-auto w-full">
+    <div v-if="snippets" class="relative top-0 mt-8 w-full">
         <div class="flex flex-wrap items-center justify-center cursor-pointer">
         <template v-for="snippet in Object.keys(items)" :key="snippet">
-            <div class="editor-element bg-black m-1 hover:bg-purple-600 flex flex-col items-center h-16 w-16 ml-01 text-xs justify-center text-center  text-gray-300 rounded hover:text-white shadow" @click="createSnippet(items[snippet].template)" :title="snippet">
+            <div class="editor-element bg-bluegray-800 m-1 hover:bg-purple-600 flex flex-col items-center h-16 w-16 ml-01 text-xs justify-center text-center  text-gray-300 rounded hover:text-white shadow" @click="createSnippet(items[snippet].template)" :title="snippet">
                 <Icon class="text-3xl" :icon="items[snippet].icon" :title="snippet"/>
                 <span class="text-xs" style="font-size:.6rem">{{ snippet }}</span>
             </div>
