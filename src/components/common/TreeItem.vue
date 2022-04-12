@@ -1,6 +1,6 @@
 
 <template>
-  <li class="ml-2 px-1 text-sm drop-container">
+  <li class="ml-2 px-1 text-base drop-container">
     <div
         :id="model.hash"
         :data-path="model.path"
@@ -15,8 +15,8 @@
         <span class="flex tree-item items-center hover:bg-purple-800" @contextmenu="openContextMenu($event)" @dragend="handleDragEnd($event,model)" draggable="true" >
             <icon icon="ant-design:folder-filled" class="mr-2 text-lg" v-if="isFolder && !isOpen"/>
             <icon icon="ant-design:folder-open-filled" class="mr-2 text-lg" v-if="isFolder && isOpen"/>
-            <icon icon="carbon:document" class="mr-1 text-lg" v-if="!isFolder"/>
-            <span class="tree-item text-sm" :title="model.type==='directory'?'double click to add a folder':''">{{ model.type === 'file' ? model.name.split('.')[0] : model.name }}</span>
+            <icon :icon="'bi:filetype-' + model.name.split('.')[model.name.split('.').length-1]" class="mr-1 text-lg" v-if="!isFolder"/>
+            <span class="tree-item text-vase" :title="model.type==='directory'?'double click to add a folder':''">{{ model.type === 'file' ? model.name.split('.').slice(0,-1).join('.') : model.name  }}</span>
         </span>
       <!-- <span class="absolute right-0" v-if="model.type==='directory'">[+]</span> -->
     </div>

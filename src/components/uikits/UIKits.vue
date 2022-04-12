@@ -21,7 +21,8 @@
         </div>
         <span  class="text-3xl absolute right-0 top-0 cursor-pointer" @click="switchToEditor"><icon icon="mdi:close"></icon></span>
     </div>
-    <FileExplorer context="uikits" :open="open" @close="open=!open" @file="loadFile"/>
+    <!-- <FileExplorer context="uikits" :open="open" @close="open=!open" @file="loadFile"/> -->
+    <TreeContainer context="uikits" :open="open" @close="open=!open" @file="loadFile"/>
 </template>
 
 <script setup lang="ts">

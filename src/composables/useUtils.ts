@@ -18,6 +18,15 @@ export function slugify ( value:string ){
     return value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')
 }
 
+export function removeNestedObjectsKey( currentNode:Object = {} , arrayKey:Object = [] , deleteKey:String = ''){
+  delete currentNode[deleteKey]
+  currentNode[arrayKey].forEach ( obj => {
+      removeNestedObjectsKey ( obj , arrayKey , deleteKey)
+  })
+  return currentNode
+ 
+}
+
 export function searchIconify ( search: String ){
     const limit: Number = 100
     const resolve = new Promise ( (resolve,reject ) =>{

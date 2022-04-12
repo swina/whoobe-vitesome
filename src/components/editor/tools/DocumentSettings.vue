@@ -3,6 +3,8 @@
         <input class="w-full mb-2" type="text" v-model="editor.document.name"/>
         <label>Description</label>
         <textarea class="w-full mb-2 h-32" v-model="editor.document.description"/>
+        <label>Slug</label>
+        <input class="w-full mb-2" type="text" v-model="slug"/>
         <!-- <label>Category</label>
         <select class="w-full" v-model="editor.document.category">
             <option v-for="category in categories" :value="category">{{ category }}</option>
@@ -25,6 +27,7 @@ import { useStore } from '/@/composables/useActions'
 import { saveSveltePage , activeProject, saveFile, saveStaticPage } from '/@/composables/useLocalApi'
 import { project , exportDocument } from '/@/composables/useProject'
 import { slugify , message } from '/@/composables/useUtils';
+import jp from 'jsonpath'
 
 const props = defineProps ({
     mode:String
@@ -64,14 +67,14 @@ const saveDocument = () => {
         saveAsSveltePage() : null
 
 }
-
+let slug = ref( slugify(editor.document.name) )
 const saveAsStaticPage = async () => {
-    let slug = prompt ( 'Page slug' , slugify(editor.document.name))
-    slug = slugify ( slug )
-    let page = {
+    
+    let page = await {
         html: documentHTML(),
-        slug: slug,
-        document: editor.document
+        slug: slug.value,
+        document: editor.document,
+        fonts: getFonts()
     }
     await saveStaticPage ( page )
     message.data = 'Saved as HTML page'
@@ -116,6 +119,16 @@ const saveAsSveltePage = async () => {
 const documentHTML = () => {
     let doc = document.querySelector ('.whoobePreview')
     let html = doc.innerHTML.replaceAll('<!--v-if-->','')
+    
     return html
+}
+
+const getFonts = () => {
+    let fonts = jp.query ( editor.document.json.blocks , '$..blocks..font')
+    let fnts = [ ...new Set ( fonts.filter ( a => { return a } ) )]
+    if ( fnts ){
+        return fnts.join('|').replaceAll(' ','+')
+    }
+    return ''
 }
 </script>

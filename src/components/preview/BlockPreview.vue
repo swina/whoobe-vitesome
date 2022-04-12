@@ -8,7 +8,7 @@
         :is="semantic">
         <template v-for="element in block.blocks" :key="element.id">
             <BlockPreview :block="element" v-if="element.type === 'container'"/>
-            <ElementPreview :element="element" v-if="element.type != 'container' && element.tag != 'icon' && element.tag != 'iconify'"/>
+            <ElementPreview :element="element" v-if="element.type != 'container' && element.type != 'slider' && element.tag != 'icon' && element.tag != 'iconify'"/>
             <IconPreview :element="element" v-if="element.tag === 'icon' || element.tag === 'iconify'"/>
             <SliderPreview :block="element" v-if="element.type === 'slider'"/>
         </template>

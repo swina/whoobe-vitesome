@@ -139,6 +139,10 @@ export const saveSveltePage = async ( page: Object ) => {
 
 export const saveStaticPage = async ( page: Object ) => {
     let doc = page
+    let fontsLInk = ''
+    if ( page.fonts ){
+        fontsLInk = `<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=${page.fonts}">`
+    }
     doc.html = `<!DOCTYPE html><html lang="en">
         <head>
             <title>${page.document.name}</title>
@@ -147,11 +151,11 @@ export const saveStaticPage = async ( page: Object ) => {
             <meta name="keywords" content="${page.document.tags.join(',')}">
             <!--Material-icons-->
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-            <!--Google Fonts-->
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat|Abel|Bungee+Inline|Archivo+Black">
+            ${fontsLInk}
             <script src="//unpkg.com/alpinejs" defer></script>
             <meta charset="UTF-8">
-            <script src="https://cdn.tailwindcss.com"></script>   
+            <link rel="stylesheet" href="/output.css">
+            <link rel="stylesheet" href="/animations.css">   
         </head>
         <body>
         ${page.html}

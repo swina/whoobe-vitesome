@@ -12,7 +12,7 @@ input[type='text'], input[type='email'], input[type='url'], input[type='password
     @apply border-bluegray-300 p-1 text-xs;
   }
 .dashboard {
-    @apply fixed inset-0 max-w-screen max-h-screen w-screen h-screen bg-bluegray-800 text-gray-300 py-10;
+    @apply fixed inset-0 max-w-max max-h-max w-screen h-screen bg-bluegray-800 text-gray-300 py-10;
  }
  
  
@@ -21,15 +21,15 @@ input[type='text'], input[type='email'], input[type='url'], input[type='password
  }
  
  .sidebarLeft {
-     @apply top-0 left-0 max-h-screen h-screen w-10 flex flex-col justify-around items-center z-10;
+     @apply top-0 left-0 max-h-max h-screen w-10 flex flex-col justify-around items-center z-10;
  }
  
  .sidebarRight {
-     @apply top-0 right-0 max-h-screen h-screen w-1/5 text-bluegray-400 flex flex-col z-10 mr-10;
+     @apply top-0 right-0 max-h-max h-screen w-1/5 text-bluegray-400 flex flex-col z-10 mr-10;
  }
  
  .toolbar {
-     @apply top-0 left-0 flex max-w-screen pl-10 h-8 z-2 items-center;
+     @apply top-0 left-0 flex max-w-max pl-10 h-8 z-2 items-center;
  }
  
  .tab {
@@ -57,7 +57,7 @@ input[type='text'], input[type='email'], input[type='url'], input[type='password
  }
 
 .editor-toolbar {
-    @apply fixed top-0 right-0 w-10 h-screen max-h-screen flex flex-col justify-around items-center bg-bluegray-900 text-gray-400 z-10;
+    @apply fixed top-0 right-0 w-10 h-screen max-h-max flex flex-col justify-around items-center bg-bluegray-900 text-gray-400 z-10;
 }
 
 .editor-toolbar .iconify:hover {

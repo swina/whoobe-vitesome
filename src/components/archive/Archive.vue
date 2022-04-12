@@ -1,5 +1,7 @@
 <template>
+    
     <div  class="p-4 md:ml-1/4 lg:ml-1/5 md:w-3/4 lg:w-4/5 pl-12 pr-10 top-0 left-0 absolute z-modal h-screen w-screen bg-gray-100 overflow-y-auto">
+        <div class="w-full h-10 bg-bluegray-800 z-modal absolute top-0 left-0">Test</div>
         <TreeContainer context="templates" :open="open" @close="open=!open" @file="loadFile"/>
         <!-- <FileExplorer context="templates" :open="open" @close="open=!open" @file="loadFile"/> -->
         <div v-if="fileInfo" class="relative flex flex-col">
@@ -10,7 +12,7 @@
                 <li>Folder: {{ currentFolder.data }}</li>
                 <!-- <li>Path: {{ fileInfo.path }}</li> -->
             </ul>
-            <div class="absolute right-0 flex">
+            <div class="absolute right-0 flex mt-10">
                 <!-- <button @click="saveToCurrentFolder">Move to folder</button> -->
                 <!-- <button v-if="fileInfo && status.current?.path && status.current.type==='directory'" @click="moveToFolder">Move to folder</button> -->
                 <!-- <button class="bg-red-700" @click="deleteFile">Delete</button> -->

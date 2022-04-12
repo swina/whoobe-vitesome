@@ -1,5 +1,5 @@
 <template>
-    <component :is="component" :id="block.id" :class="blockCSS(block)" class="relative" x-data="{slide:'0'}">
+    <component :is="component" :id="block.id" :class="blockCSS(block)" class="relative" :x-data="slidesData()">
         <div class="flex flex-row w-full" v-if="block.data.mode==='tabs'">
             <template v-for="(tab,n) in block.blocks.length" :key="tab">
                 <div @click="index=n" :x-on:click="slideClick(n)" class="carousel_tab cursor-pointer"  :class="tabCSS(n)" :data-active="n===index?true:false" :data-tab="n"  :data-css-active="block.data.css.active" :data-css="block.data.css.default + ' ' + block.data.css.hover" :x-bind:class="bindClass(block,n)">
@@ -7,7 +7,7 @@
                 </div>
             </template>
         </div>
-        <div v-for="(element,i) in block.blocks" class="slide-content" :x-show="slide(i)" :class="classe(i)">
+        <div v-for="(element,i) in block.blocks" class="slide-content" :x-show="slide(i)">
             <BlockPreview
                 v-if="element.type === 'container'"
                 :block="element"
@@ -21,11 +21,11 @@
 
         <div :data-slider="block.id" class="carousel_prev absolute left-0 top-0 bottom-0 flex flex-col justify-center z-modal cursor-pointer" 
             v-if="block.data.mode === 'slider'">
-            <span @click="prev"><icon :icon="sliderNav('prev').icon" :class="sliderNav('prev').css"/></span>
+            <span @click="prev"><icon :icon="sliderNav('prev').icon" :x-on:click="slidePrev()" :class="sliderNav('prev').css"/></span>
         </div>
         <div :data-slider="block.id" class="carousel_next absolute right-0 top-0 bottom-0 flex flex-col justify-center z-modal cursor-pointer" 
             v-if="block.data.mode === 'slider'">
-            <span @click="next"><icon :icon="sliderNav('next').icon" :class="sliderNav('next').css"/></span>
+            <span @click="next"><icon :icon="sliderNav('next').icon" :x-on:click="slideNext()" :class="sliderNav('next').css"/></span>
         </div>
     </component>
 </template>
@@ -57,17 +57,28 @@ const tabCSS = (n) => {
         props.block.data.css.active 
 }
 
+const slidesData = () => {
+    return '{slide:0,slides:' + props.block.blocks.length + '}' //, slides:' + slides.length + '}'
+}
 const slideClick = (index) => {
-    return "slide = '" + index + "'"
+    return "slide = " + index //+ "'"
 }
 const slide = (index) => {
-    return "slide==='" + index + "'"
+    return "slide===" + index //+ "'"
 }
 const sliderNav = (direction:String) => {
     return { 
         icon: props.block.data.settings.navigation.icons[direction] , 
         css: props.block.data.settings.navigation.icons.css 
     }
+}
+
+const slidePrev = ()=>{
+    return 'slide > 0 ? slide -= 1 : null';
+}
+
+const slideNext = ()=>{
+    return 'slide < (slides-1) ? slide += 1 : null';
 }
 
 const bindClass = ( block:Object , index) => {
